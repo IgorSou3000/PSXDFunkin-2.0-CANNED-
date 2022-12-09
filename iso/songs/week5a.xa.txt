@@ -1,0 +1,4 @@
+1 xa green-eggs/Voices.xa 1 0
+1 xa green-eggs/Inst.xa 1 1
+1 xa ham/Voices.xa 1 2
+1 xa ham/Inst.xa 1 3

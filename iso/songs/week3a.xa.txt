@@ -1,0 +1,4 @@
+1 xa pico/Voices.xa 1 0
+1 xa pico/Inst.xa 1 1
+1 xa philly-nice/Voices.xa 1 2
+1 xa philly-nice/Inst.xa 1 3

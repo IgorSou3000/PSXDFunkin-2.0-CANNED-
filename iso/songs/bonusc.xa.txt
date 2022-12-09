@@ -1,0 +1,4 @@
+1 xa dguy/Voices.xa 1 0
+1 xa dguy/Inst.xa 1 1
+1 xa lore/Voices.xa 1 2
+1 xa lore/Inst.xa 1 3
