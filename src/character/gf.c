@@ -64,37 +64,37 @@ static const CharFrame char_GF_frame[] = {
 	{GF_ArcMain_GF3,{  0,117, 95,110},{ 31, 71}}, //14 Bop Right 7
 	{GF_ArcMain_GF3,{ 95,117, 88,110},{ 29, 68}}, //15 Bop Right 8
 	
-	{GF_ArcMain_GF2, {  0,   0,  73, 100}, { 34,  71}}, //12 cry 1
-	{GF_ArcMain_GF2, { 74,   0,  73, 102}, { 35,  72}}, //13 cry 2
-	{GF_ArcMain_GF2, {148,   0,  73, 102}, { 34,  72}}, //14 cry 3
-	{GF_ArcMain_GF2, {  0, 101,  74, 102}, { 35,  72}}, //15 cry 4
-	{GF_ArcMain_GF2, { 75, 102,  73, 102}, { 34,  72}}, //16 cry 5
+	{GF_ArcMain_GF4,{  0,  0, 85,106},{ 34, 67}}, //16 cry 1
+	{GF_ArcMain_GF4,{ 85,  0, 85,106},{ 34, 67}}, //17 cry 2
+
+	{GF_ArcMain_GF4,{170,  0, 85,112},{ 28, 73}}, //18 cheer 1
+	{GF_ArcMain_GF4,{  0,108, 85,112},{ 28, 73}}, //19 cheer 2
+	{GF_ArcMain_GF4,{ 86,108, 85,112},{ 28, 73}}, //20 cheer 3
+	{GF_ArcMain_GF4,{171,112, 85,110},{ 27, 70}}, //21 cheer 4
 	
-	{GF_ArcScene_0, {  0,   0,  75, 102}, { 39,  71}}, //17 left 1
-	{GF_ArcScene_0, { 76,   0,  77, 103}, { 41,  72}}, //18 left 2
+	{GF_ArcScene_0,{  0,  0, 85,112},{ 40, 72}}, //22 left 1
+	{GF_ArcScene_0,{ 85,  0, 85,112},{ 39, 72}}, //23 left 2
+	{GF_ArcScene_0,{170,  0, 85,112},{ 31, 72}}, //24 left 3
 	
-	{GF_ArcScene_0, {154,   0,  79, 102}, { 37,  71}}, //19 down 1
-	{GF_ArcScene_0, {  0, 103,  78, 104}, { 37,  72}}, //20 down 2
+	{GF_ArcScene_0,{  0,112, 85,112},{ 29, 72}}, //25 down 1
+	{GF_ArcScene_0,{ 90,112, 85,112},{ 28, 73}}, //26 down 2
 	
-	{GF_ArcScene_0, { 79, 104,  79, 108}, { 39,  78}}, //21 up 1
-	{GF_ArcScene_0, {159, 104,  79, 109}, { 39,  78}}, //22 up 2
+	{GF_ArcScene_1,{  0,  0, 86,112},{ 26, 73}}, //27 up 1
+	{GF_ArcScene_1,{ 87,  0, 86,112},{ 26, 72}}, //28 up 2
 	
-	{GF_ArcScene_1, {  0,   0,  81, 102}, { 41,  71}}, //23 right 1
-	{GF_ArcScene_1, { 81,   0,  76, 103}, { 36,  72}}, //24 right 2
-	
-	{GF_ArcScene_1, {158,   0,  75, 108}, { 36,  78}}, //25 cheer 1
-	{GF_ArcScene_1, {  0, 103,  77, 107}, { 37,  77}}, //26 cheer 2
+	{GF_ArcScene_1,{  0,115, 89,112},{ 25, 72}}, //29 right 1
+	{GF_ArcScene_1,{ 89,115, 84,112},{ 25, 72}}, //30 right 2
 };
 
 static const Animation char_GF_anim[CharAnim_Max] = {
-	{  0, (const u8[]){ASCR_CHGANI, CharAnim_LeftAlt}},                        //CharAnim_Idle
-	{2, (const u8[]){17, 18, ASCR_BACK, 1}},                                 //CharAnim_Left
+	{0, (const u8[]){ASCR_CHGANI, CharAnim_LeftAlt}},                        //CharAnim_Idle
+	{2, (const u8[]){22, 23, 24, ASCR_BACK, 1}},                                 //CharAnim_Left
 	{1, (const u8[]){ 0,  0,  1,  2,  2,  3,  4,  5,  5,  5,  6,  7, ASCR_BACK, 1}}, //CharAnim_LeftAlt
-	{2, (const u8[]){19, 20, ASCR_BACK, 1}},                                 //CharAnim_Down
-	{1, (const u8[]){12, 13, 14, 15, 16, ASCR_REPEAT}},                      //CharAnim_DownAlt
-	{2, (const u8[]){21, 22, ASCR_BACK, 1}},                                 //CharAnim_Up
-	{2, (const u8[]){25, 26, ASCR_BACK, 1}},                                 //CharAnim_UpAlt
-	{2, (const u8[]){23, 24, ASCR_BACK, 1}},                                 //CharAnim_Right
+	{2, (const u8[]){25, 26, ASCR_BACK, 1}},                                 //CharAnim_Down
+	{1, (const u8[]){16, 17, ASCR_REPEAT}},                      //CharAnim_DownAlt
+	{2, (const u8[]){27, 28, ASCR_BACK, 1}},                                 //CharAnim_Up
+	{2, (const u8[]){18, 19, 20, 21, ASCR_REPEAT}},                                 //CharAnim_UpAlt
+	{2, (const u8[]){29, 30, ASCR_BACK, 1}},                                 //CharAnim_Right
 	{1, (const u8[]){ 8,  8,  9, 10, 10, 11, 12, 13, 13, 13, 14, 15, ASCR_BACK, 1}}, //CharAnim_RightAlt
 };
 
@@ -191,7 +191,7 @@ Character *Char_GF_New(fixed_t x, fixed_t y)
 	
 	this->character.focus_x = FIXED_DEC(2,1);
 	this->character.focus_y = FIXED_DEC(-40,1);
-	this->character.focus_zoom = FIXED_DEC(2,1);
+	this->character.focus_zoom = FIXED_DEC(15,10);
 	
 	//Load art
 	this->arc_main = IO_Read("\\CHAR\\GF.ARC;1");

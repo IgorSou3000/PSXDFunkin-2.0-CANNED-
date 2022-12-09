@@ -11,49 +11,49 @@ static const XA_TrackDef xa_tracks[] = {
 	{XA_Menu, XA_LENGTH(11295)}, //XA_GettinFreaky
 	{XA_Menu, XA_LENGTH(3840)},  //XA_GameOver
 	//WEEK1A.XA
-	{XA_Week1A, XA_LENGTH(8400)}, //XA_Bopeebo
-	{XA_Week1A, XA_LENGTH(10200)}, //XA_Fresh
+	{XA_Week1A, XA_LENGTH(8300)}, //XA_Bopeebo
+	{XA_Week1A, XA_LENGTH(10100)}, //XA_Fresh
 	//WEEK1B.XA
-	{XA_Week1B, XA_LENGTH(11300)}, //XA_Dadbattle
-	{XA_Week1B, XA_LENGTH(6200)}, //XA_Tutorial
+	{XA_Week1B, XA_LENGTH(11200)}, //XA_Dadbattle
+	{XA_Week1B, XA_LENGTH(6100)}, //XA_Tutorial
 	//WEEK2A.XA
-	{XA_Week2A, XA_LENGTH(9100)}, //XA_Spookeez
-	{XA_Week2A, XA_LENGTH(9000)}, //XA_South
+	{XA_Week2A, XA_LENGTH(9000)}, //XA_Spookeez
+	{XA_Week2A, XA_LENGTH(8900)}, //XA_South
 	//WEEK2B.XA
-	{XA_Week2B, XA_LENGTH(11200)}, //XA_Ghastly
-	{XA_Week2B, XA_LENGTH(14800)}, //XA_Monster
+	{XA_Week2B, XA_LENGTH(11100)}, //XA_Ghastly
+	{XA_Week2B, XA_LENGTH(14700)}, //XA_Monster
 	//WEEK3A.XA
-	{XA_Week3A, XA_LENGTH(8800)},  //XA_Pico
-	{XA_Week3A, XA_LENGTH(10300)}, //XA_Philly
+	{XA_Week3A, XA_LENGTH(8700)},  //XA_Pico
+	{XA_Week3A, XA_LENGTH(10200)}, //XA_Philly
 	//WEEK3B.XA
-	{XA_Week3B, XA_LENGTH(10300)}, //XA_Blammed
+	{XA_Week3B, XA_LENGTH(10200)}, //XA_Blammed
 	//WEEK4A.XA
-	{XA_Week4A, XA_LENGTH(10500)},  //XA_SatinPanties
-	{XA_Week4A, XA_LENGTH(12900)}, //XA_High
+	{XA_Week4A, XA_LENGTH(10400)},  //XA_SatinPanties
+	{XA_Week4A, XA_LENGTH(12800)}, //XA_High
 	//WEEK4B.XA
-	{XA_Week4B, XA_LENGTH(11600)}, //XA_Awooga
-	{XA_Week4B, XA_LENGTH(11800)}, //XA_MILF
+	{XA_Week4B, XA_LENGTH(11500)}, //XA_Awooga
+	{XA_Week4B, XA_LENGTH(11700)}, //XA_MILF
 	//WEEK5A.XA
-	{XA_Week5A, XA_LENGTH(13300)}, //XA_Green_Eggs
-	{XA_Week5A, XA_LENGTH(12200)},  //XA_Ham
+	{XA_Week5A, XA_LENGTH(13200)}, //XA_Green_Eggs
+	{XA_Week5A, XA_LENGTH(12100)},  //XA_Ham
 	//WEEK5B.XA
-	{XA_Week5B, XA_LENGTH(19800)}, //XA_Feaster
+	{XA_Week5B, XA_LENGTH(19700)}, //XA_Feaster
 	//WEEK6A.XA
-	{XA_Week6A, XA_LENGTH(10000)}, //XA_Senpai
+	{XA_Week6A, XA_LENGTH(9000)}, //XA_Senpai
 	{XA_Week6A, XA_LENGTH(8928)}, //XA_Roses
 	//WEEK6B.XA
 	{XA_Week6B, XA_LENGTH(10298)}, //XA_Thorns
 	//BONUSA.XA
-	{XA_BonusA, XA_LENGTH(14300)}, //XA_Too_Slow
-	{XA_BonusA, XA_LENGTH(14900)}, //XA_Endless
+	{XA_BonusA, XA_LENGTH(14200)}, //XA_Too_Slow
+	{XA_BonusA, XA_LENGTH(14800)}, //XA_Endless
 	//BONUSB.XA
-	{XA_BonusB, XA_LENGTH(32400)}, //XA_Cycles
-	{XA_BonusB, XA_LENGTH(15500)}, //XA_Milk
+	{XA_BonusB, XA_LENGTH(32300)}, //XA_Cycles
+	{XA_BonusB, XA_LENGTH(15400)}, //XA_Milk
 	//BONUSC.XA
-	{XA_BonusC, XA_LENGTH(12000)}, //XA_DGuy
-	{XA_BonusC, XA_LENGTH(18900)}, //XA_Lore
+	{XA_BonusC, XA_LENGTH(11900)}, //XA_DGuy
+	{XA_BonusC, XA_LENGTH(18800)}, //XA_Lore
 	//BONUSD.XA
-	{XA_BonusD, XA_LENGTH(18700)}, //XA_God_Feast
+	{XA_BonusD, XA_LENGTH(18600)}, //XA_God_Feast
 };
 
 static const char *xa_paths[] = {

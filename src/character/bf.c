@@ -74,9 +74,9 @@ static const CharFrame char_BF_frame[] = {
 	{BF_ArcMain_BF2, {125,115,126,116},{ 43, 92}}, //11 right 1
 	{BF_ArcMain_BF3, {  0,  0,120,110},{ 47, 90}}, //12 right 2
 	
-	{BF_ArcMain_BF3, {103,   0,  99, 105}, { 54,  98}}, //13 peace 1
-	{BF_ArcMain_BF3, {  0, 103, 104, 103}, { 54,  96}}, //14 peace 2
-	{BF_ArcMain_BF3, {105, 106, 104, 104}, { 54,  97}}, //15 peace 3
+	{BF_ArcMain_BF3, {120,  0,114,115},{ 48, 98}}, //13 peace 1
+	{BF_ArcMain_BF3, {  0,112,114,115},{ 49, 98}}, //14 peace 2
+	{BF_ArcMain_BF3, {120,114,114,112},{ 49, 93}}, //15 peace 3
 	
 	{BF_ArcMain_BF4, {  0,   0, 128, 128}, { 53,  92}}, //16 sweat 1
 	{BF_ArcMain_BF4, {128,   0, 128, 128}, { 53,  93}}, //17 sweat 2
@@ -279,7 +279,7 @@ Character *Char_BF_New(fixed_t x, fixed_t y)
 	this->character.health_i = 0;
 
 	//Health Bar
-	this->character.health_b = 0xFF28B0D1;
+	this->character.health_b = 0xFFE753DA;
 
 	//Character scale
 	this->character.scale = FIXED_DEC(1,1);
