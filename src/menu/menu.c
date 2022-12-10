@@ -1086,6 +1086,8 @@ void Menu_Tick(void)
 				{OptType_Boolean, "MIDDLESCROLL", &stage.save.middlescroll, {.spec_boolean = {0}}},
 				{OptType_Boolean, "BOTPLAY", &stage.save.botplay, {.spec_boolean = {0}}},
 				{OptType_Boolean, "SHOW TIMER", &stage.save.showtimer, {.spec_boolean = {0}}},
+				{OptType_Boolean, "TIMER COLOR", &stage.save.timercolor, {.spec_boolean = {0}}},
+				{OptType_Boolean, "BUMP SCREEN", &stage.save.bump, {.spec_boolean = {0}}},
 			};
 			
 			//Initialize page

@@ -37,7 +37,10 @@ void Back_Week1_Tick(StageBack *back)
 			case StageId_1_1:
 				//BF peace
 				if (stage.song_step >= 0 && (stage.song_step % 32) == 28)
-					stage.player->set_anim(stage.player, PlayerAnim_Peace);
+				{
+					stage.player->set_anim(stage.player, CharAnim_Special1);
+					stage.gf->set_anim(stage.gf, CharAnim_Special2);
+				}
 				break;
 			case StageId_1_2:
 				//GF bopping
@@ -62,8 +65,8 @@ void Back_Week1_Tick(StageBack *back)
 				stage.gf_speed = 8;
 				if (stage.song_step > 64 && stage.song_step < 192 && (stage.song_step % 64) == 60)
 				{
-					stage.player->set_anim(stage.player, PlayerAnim_Peace);
-					stage.opponent->set_anim(stage.opponent, CharAnim_UpAlt);
+					stage.player->set_anim(stage.player, CharAnim_Special1);
+					stage.opponent->set_anim(stage.opponent, CharAnim_Special2);
 				}
 				break;
 			default:
@@ -173,6 +176,11 @@ StageBack *Back_Week1_New(void)
 	this->back.draw_md = NULL;
 	this->back.draw_bg =  Back_Week1_DrawBG;
 	this->back.free = Back_Week1_Free;
+
+	//Set stage timer color
+	stage.timercolor.r = 168;
+	stage.timercolor.g = 0;
+	stage.timercolor.b = 51;
 
 	//Load HUD textures
 	Gfx_LoadTex(&stage.tex_hud0, IO_Read("\\STAGE\\HUD0.TIM;1"), GFX_LOADTEX_FREE);

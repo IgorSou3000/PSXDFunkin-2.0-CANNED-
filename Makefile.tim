@@ -65,7 +65,7 @@ $(BFPATH)/normal/main.arc: $(BFPATH)/normal/bf0.tim $(BFPATH)/normal/bf1.tim $(B
 $(BFPATH)/dead.arc: $(BFPATH)/dead3.tim $(BFPATH)/dead4.tim $(BFPATH)/dead5.tim
 
 # Dad
-$(DADPATH)/normal/main.arc: $(DADPATH)/normal/idle0.tim $(DADPATH)/normal/idle1.tim $(DADPATH)/normal/left.tim $(DADPATH)/normal/down.tim $(DADPATH)/normal/up.tim $(DADPATH)/normal/right.tim
+$(DADPATH)/normal/main.arc: $(DADPATH)/normal/idle0.tim $(DADPATH)/normal/idle1.tim $(DADPATH)/normal/idle2.tim $(DADPATH)/normal/left.tim $(DADPATH)/normal/down0.tim $(DADPATH)/normal/down1.tim $(DADPATH)/normal/up.tim $(DADPATH)/normal/right.tim
 
 # GF
 $(GFPATH)/normal/main.arc: $(GFPATH)/normal/gf0.tim $(GFPATH)/normal/gf1.tim $(GFPATH)/normal/gf2.tim $(GFPATH)/normal/gf3.tim $(GFPATH)/normal/gf4.tim

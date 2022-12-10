@@ -70,7 +70,7 @@ static const CharFrame char_GF_frame[] = {
 	{GF_ArcMain_GF4,{170,  0, 85,112},{ 28, 73}}, //18 cheer 1
 	{GF_ArcMain_GF4,{  0,108, 85,112},{ 28, 73}}, //19 cheer 2
 	{GF_ArcMain_GF4,{ 86,108, 85,112},{ 28, 73}}, //20 cheer 3
-	{GF_ArcMain_GF4,{171,112, 85,110},{ 27, 70}}, //21 cheer 4
+	{GF_ArcMain_GF4,{171,112, 84,110},{ 27, 70}}, //21 cheer 4
 	
 	{GF_ArcScene_0,{  0,  0, 85,112},{ 40, 72}}, //22 left 1
 	{GF_ArcScene_0,{ 85,  0, 85,112},{ 39, 72}}, //23 left 2
@@ -91,11 +91,15 @@ static const Animation char_GF_anim[CharAnim_Max] = {
 	{2, (const u8[]){22, 23, 24, ASCR_BACK, 1}},                                 //CharAnim_Left
 	{1, (const u8[]){ 0,  0,  1,  2,  2,  3,  4,  5,  5,  5,  6,  7, ASCR_BACK, 1}}, //CharAnim_LeftAlt
 	{2, (const u8[]){25, 26, ASCR_BACK, 1}},                                 //CharAnim_Down
-	{1, (const u8[]){16, 17, ASCR_REPEAT}},                      //CharAnim_DownAlt
+	{0, (const u8[]){ASCR_CHGANI, CharAnim_LeftAlt}},                       //CharAnim_DownAlt
 	{2, (const u8[]){27, 28, ASCR_BACK, 1}},                                 //CharAnim_Up
-	{2, (const u8[]){18, 19, 20, 21, ASCR_REPEAT}},                                 //CharAnim_UpAlt
+	{0, (const u8[]){ASCR_CHGANI, CharAnim_LeftAlt}},                        //CharAnim_UpAlt
 	{2, (const u8[]){29, 30, ASCR_BACK, 1}},                                 //CharAnim_Right
 	{1, (const u8[]){ 8,  8,  9, 10, 10, 11, 12, 13, 13, 13, 14, 15, ASCR_BACK, 1}}, //CharAnim_RightAlt
+
+	{1, (const u8[]){16, 17, ASCR_REPEAT}},        //CharAnim_Special1
+	{2, (const u8[]){18, 19, 20, 21, ASCR_REPEAT}},      //CharAnim_Special2
+	{0, (const u8[]){ASCR_CHGANI, CharAnim_Idle}},       //CharAnim_Special3
 };
 
 //GF character functions
@@ -144,7 +148,7 @@ void Char_GF_Tick(Character *character)
 void Char_GF_SetAnim(Character *character, u8 anim)
 {
 	//Set animation
-	if (anim == CharAnim_Left || anim == CharAnim_Down || anim == CharAnim_Up || anim == CharAnim_Right || anim == CharAnim_UpAlt)
+	if (anim == CharAnim_Left || anim == CharAnim_Down || anim == CharAnim_Up || anim == CharAnim_Right || anim == CharAnim_UpAlt || anim == CharAnim_Special1 || anim == CharAnim_Special2 || anim == CharAnim_Special3)
 		character->sing_end = stage.note_scroll + FIXED_DEC(22,1); //Nearly 2 steps
 	Animatable_SetAnim(&character->animatable, anim);
 }
@@ -184,7 +188,7 @@ Character *Char_GF_New(fixed_t x, fixed_t y)
 	this->character.health_i = 2;
 
 	//Health Bar
-	this->character.health_b = 0xFFA4004A;
+	this->character.health_b = 0xFFF8785C;
 
 	//Character scale
 	this->character.scale = FIXED_DEC(1,1);

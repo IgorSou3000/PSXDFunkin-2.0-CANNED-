@@ -35,6 +35,13 @@ typedef struct
 	u8 pxshift;
 } Gfx_Tex;
 
+typedef struct
+{
+	u8 r;
+	u8 g;
+	u8 b;
+} RGB;
+
 //Gfx functions
 void Gfx_Init(void);
 void Gfx_Quit(void);

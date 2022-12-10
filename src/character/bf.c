@@ -137,13 +137,14 @@ static const Animation char_BF_anim[PlayerAnim_Max] = {
 	{2, (const u8[]){11, 12, ASCR_BACK, 1}},             //CharAnim_Right
 	{0, (const u8[]){ASCR_CHGANI, CharAnim_Idle}},       //CharAnim_RightAlt
 	
+	{2, (const u8[]){13, 14, 15, ASCR_BACK, 1}},         //CharAnim_Special1
+	{2, (const u8[]){16, 17, 18, 19, ASCR_REPEAT}},      //CharAnim_Special2
+	{0, (const u8[]){ASCR_CHGANI, CharAnim_Idle}},       //CharAnim_Special3
+	
 	{1, (const u8[]){ 5, 20, 20, 21, ASCR_BACK, 1}},     //PlayerAnim_LeftMiss
 	{1, (const u8[]){ 7, 22, 22, 23, ASCR_BACK, 1}},     //PlayerAnim_DownMiss
 	{1, (const u8[]){ 9, 24, 24, 25, ASCR_BACK, 1}},     //PlayerAnim_UpMiss
 	{1, (const u8[]){11, 26, 26, 27, ASCR_BACK, 1}},     //PlayerAnim_RightMiss
-	
-	{2, (const u8[]){13, 14, 15, ASCR_BACK, 1}},         //PlayerAnim_Peace
-	{2, (const u8[]){16, 17, 18, 19, ASCR_REPEAT}},      //PlayerAnim_Sweat
 	
 	{4, (const u8[]){28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 39, 39, ASCR_BACK, 1}}, //PlayerAnim_FirstDead
 	{2, (const u8[]){40, 41, 42, 43, 43, 43, 43, 43, 43, 43, 43, ASCR_REPEAT}},  //PlayerAnim_DeadLoop     

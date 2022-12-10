@@ -50,9 +50,12 @@ void Events_StartEvents(void)
 				}
 				case EVENTS_FLAG_CAMZOOM: //Add Camera Zoom!!
 				{
-					//So easy LOL
-					stage.charbump += event->value1;
-					stage.bump += event->value2;
+					if (stage.save.bump)
+					{
+						//So easy LOL
+						stage.charbump += event->value1;
+						stage.bump += event->value2;
+				  }
 					break;
 				}
 				default: //nothing lol

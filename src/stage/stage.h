@@ -192,7 +192,7 @@ typedef struct
 	//Variables that you want save
 	struct
 	{
-		boolean ghost, middlescroll, downscroll, healthdrain, showtimer, botplay;
+		boolean ghost, middlescroll, downscroll, healthdrain, showtimer, botplay, bump, timercolor;
 
 		u32 savescore[StageId_Max][StageDiff_Max];	
 	}save;
@@ -205,6 +205,9 @@ typedef struct
 	//Notes
 	fixed_t note_x[8];
 	fixed_t note_y[8];
+
+	//Timer Color
+	RGB timercolor;
 
 	//Font Stuff
 	FontData font_cdr, font_bold;

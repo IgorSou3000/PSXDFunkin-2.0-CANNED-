@@ -277,7 +277,7 @@ static void Stage_MissNote(PlayerState *this)
 	{
 		//Kill combo
 		if (stage.gf != NULL && this->combo > 5)
-			stage.gf->set_anim(stage.gf, CharAnim_DownAlt); //Cry if we lost a large combo
+			stage.gf->set_anim(stage.gf, CharAnim_Special1); //Cry if we lost a large combo
 		this->combo = 0;
 		
 		//Create combo object telling of our lost combo
@@ -666,7 +666,7 @@ static void Stage_TimerDraw(void)
 		);
 
 		bar_dst.w = bar_fill.w * FIXED_UNIT;
-		Stage_DrawTex(&stage.tex_hud1, &bar_fill, &bar_dst, stage.bump);
+		Stage_DrawTexCol(&stage.tex_hud1, &bar_fill, &bar_dst, stage.bump, stage.timercolor.r / 2, stage.timercolor.g / 2, stage.timercolor.b / 2);
 		bar_dst.w = bar_back.w * FIXED_UNIT;
 		Stage_DrawTexCol(&stage.tex_hud1, &bar_back, &bar_dst, stage.bump, 0, 0, 0);
 	}
@@ -706,11 +706,12 @@ static void Stage_DrawCountdown(void)
 static void Stage_DrawHealthBar(u32 color, s8 ox)
 {
 	//Convert hex value to a RGB value
+	RGB healthcolor;
 
 	//I'm dividing by 2 because as the health bar is white, if I don't divide, the healthbar will be very light
-	u8 r = ((color >> 16) & 0xFF) / 2;  // Extract the RR byte
-  u8 g = ((color >> 8) & 0xFF) / 2;   // Extract the GG byte
-  u8 b = ((color) & 0xFF) / 2;        // Extract the BB byte
+	healthcolor.r = ((color >> 16) & 0xFF) / 2;  // Extract the RR byte
+  healthcolor.g = ((color >> 8) & 0xFF) / 2;   // Extract the GG byte
+  healthcolor.b = ((color) & 0xFF) / 2;        // Extract the BB byte
 
 	//Check which "health bar code" we should use
 	u8 healthw;
@@ -729,7 +730,7 @@ static void Stage_DrawHealthBar(u32 color, s8 ox)
 	if (stage.save.downscroll)
 			health_dst.y = -health_dst.y - health_dst.h;
 				
-	Stage_DrawTexCol(&stage.tex_hud1, &health_src, &health_dst, stage.bump, r, g, b);
+	Stage_DrawTexCol(&stage.tex_hud1, &health_src, &health_dst, stage.bump, healthcolor.r, healthcolor.g, healthcolor.b);
 }
 static void Stage_DrawHealth(s16 health, u8 i, s8 ox)
 {
@@ -1171,10 +1172,17 @@ static void Stage_LoadGirlfriend(void)
 
 static void Stage_LoadStage(void)
 {
+	//Set Health bar to white
+	stage.timercolor.r = stage.timercolor.g = stage.timercolor.b = 255;
+
 	//Load back
 	if (stage.back != NULL)
 		stage.back->free(stage.back);
 	stage.back = stage.stage_def->back();
+
+	//Set Health bar to white again
+	if (!stage.save.timercolor)
+	stage.timercolor.r = stage.timercolor.g = stage.timercolor.b = 255;
 }
 
 static void Stage_LoadChart(void)
@@ -1748,7 +1756,7 @@ void Stage_Tick(void)
 					is_bump_step = (stage.song_step % 4) == 0;
 				
 				//Bump screen
-				if (is_bump_step)
+				if (is_bump_step && stage.save.bump)
 				{
 					stage.bump += FIXED_DEC(3,100); //0.03
 					stage.charbump += FIXED_DEC(15,1000); //0.015
