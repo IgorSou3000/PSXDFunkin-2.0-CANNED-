@@ -17,9 +17,13 @@ enum
 	Spook_ArcMain_Idle0,
 	Spook_ArcMain_Idle1,
 	Spook_ArcMain_Idle2,
-	Spook_ArcMain_Left,
-	Spook_ArcMain_Down,
-	Spook_ArcMain_Up,
+	Spook_ArcMain_Idle3,
+	Spook_ArcMain_Left0,
+	Spook_ArcMain_Left1,
+	Spook_ArcMain_Down0,
+	Spook_ArcMain_Down1,
+	Spook_ArcMain_Up0,
+	Spook_ArcMain_Up1,
 	Spook_ArcMain_Right,
 	
 	Spook_Arc_Max,
@@ -35,40 +39,42 @@ typedef struct
 	IO_Data arc_ptr[Spook_Arc_Max];
 	
 	Gfx_Tex tex;
-	u8 frame, tex_id;
+	u8 frame, tex_Id;
 } Char_Spook;
 
 //Spook character definitions
 static const CharFrame char_spook_frame[] = {
-	{Spook_ArcMain_Idle0, {  0,   0,  97, 137}, { 61, 132}}, //0 idle 1
-	{Spook_ArcMain_Idle0, { 98,   0,  94, 136}, { 59, 132}}, //1 idle 2
-	{Spook_ArcMain_Idle1, {  0,   0,  90, 121}, { 55, 117}}, //2 idle 3
-	{Spook_ArcMain_Idle1, { 91,   0,  89, 124}, { 56, 119}}, //3 idle 4
-	{Spook_ArcMain_Idle2, {  0,   0, 124, 133}, { 76, 127}}, //4 idle 5
-	{Spook_ArcMain_Idle2, {125,   0, 121, 131}, { 74, 127}}, //5 idle 6
+	{Spook_ArcMain_Idle0,{  0,  0,144,134},{ 61,132}}, // 0 idle 1
+	{Spook_ArcMain_Idle1,{  0,  0,144,134},{ 61,131}}, // 1 idle 2
+	{Spook_ArcMain_Idle2,{  0,  0,110,132},{ 50,124}}, // 2 idle 3
+	{Spook_ArcMain_Idle2,{110,  0,110,132},{ 51,125}}, // 3 idle 4
+	{Spook_ArcMain_Idle3,{  0,  0,127,134},{ 61,131}}, // 4 idle 5
+	{Spook_ArcMain_Idle3,{127,  0,127,134},{ 61,131}}, // 5 idle 6
 	
-	{Spook_ArcMain_Left, {  0,   0, 140, 134}, {103, 130}}, //6 left 1
-	{Spook_ArcMain_Left, {115, 123, 140, 132}, {101, 128}}, //7 left 2
+	{Spook_ArcMain_Left0,{  0,  0,125,160},{ 59,152}}, // 6 left 1
+	{Spook_ArcMain_Left0,{125,  0,125,160},{ 60,152}}, // 7 left 2
+	{Spook_ArcMain_Left1,{  0,  0,125,160},{ 59,152}}, // 8 left 3
+	{Spook_ArcMain_Left1,{125,  0,125,160},{ 60,152}}, // 9 left 4
 	
-	{Spook_ArcMain_Down, {  0,   0, 117, 102}, { 66,  98}}, //8 down 1
-	{Spook_ArcMain_Down, {118,   0, 113, 101}, { 65,  98}}, //9 down 2
+	{Spook_ArcMain_Down0,{  0,  0,140,140},{ 35,137}}, //10 down 1
+	{Spook_ArcMain_Down1,{  0,  0,140,140},{ 35,136}}, //11 down 2
 	
-	{Spook_ArcMain_Up, {  0,   0, 101, 143}, { 70, 139}}, //10 up 1
-	{Spook_ArcMain_Up, {102,   0, 102, 142}, { 69, 137}}, //11 up 2
+	{Spook_ArcMain_Up0,{  0,  0,140,160},{ 54,155}}, //12 up 1
+	{Spook_ArcMain_Up1,{  0,  0,140,160},{ 54,154}}, //13 up 2
 	
-	{Spook_ArcMain_Right, {  0,   0, 111, 130}, { 42, 127}}, //12 right 1
-	{Spook_ArcMain_Right, {112,   0, 110, 133}, { 39, 130}}, //13 right 2
+	{Spook_ArcMain_Right,{  0,  0,126,140},{ 45,135}}, //14 right 1
+	{Spook_ArcMain_Right,{128,  0,126,140},{ 41,136}}, //15 right 2
 };
 
 static const Animation char_spook_anim[CharAnim_Max] = {
 	{2, (const u8[]){ASCR_CHGANI, CharAnim_LeftAlt}}, //CharAnim_Idle
-	{2, (const u8[]){ 6,  7, ASCR_BACK, 1}},          //CharAnim_Left
+	{2, (const u8[]){ 6,  7,  8,  9, ASCR_BACK, 1}},          //CharAnim_Left
 	{2, (const u8[]){ 0,  1,  2,  3, ASCR_BACK, 1}},  //CharAnim_LeftAlt
-	{2, (const u8[]){ 8,  9, ASCR_BACK, 1}},          //CharAnim_Down
+	{2, (const u8[]){10, 11, ASCR_BACK, 1}},          //CharAnim_Down
 	{0, (const u8[]){ASCR_CHGANI, CharAnim_LeftAlt}}, //CharAnim_DownAlt
-	{2, (const u8[]){10, 11, ASCR_BACK, 1}},          //CharAnim_Up
+	{2, (const u8[]){12, 13, ASCR_BACK, 1}},          //CharAnim_Up
 	{0, (const u8[]){ASCR_CHGANI, CharAnim_LeftAlt}}, //CharAnim_UpAlt
-	{2, (const u8[]){12, 13, ASCR_BACK, 1}},          //CharAnim_Right
+	{2, (const u8[]){14, 15, ASCR_BACK, 1}},          //CharAnim_Right
 	{2, (const u8[]){ 4,  5,  2,  3, ASCR_BACK, 1}},  //CharAnim_RightAlt
 };
 
@@ -82,8 +88,8 @@ void Char_Spook_SetFrame(void *user, u8 frame)
 	{
 		//Check if new art shall be loaded
 		const CharFrame *cframe = &char_spook_frame[this->frame = frame];
-		if (cframe->tex != this->tex_id)
-			Gfx_LoadTex(&this->tex, this->arc_ptr[this->tex_id = cframe->tex], 0);
+		if (cframe->tex != this->tex_Id)
+			Gfx_LoadTex(&this->tex, this->arc_ptr[this->tex_Id = cframe->tex], 0);
 	}
 }
 
@@ -164,7 +170,7 @@ Character *Char_Spook_New(fixed_t x, fixed_t y)
 	this->character.health_i = 3;
 
 	//Health Bar
-	this->character.health_b = 0xFFD77D00;
+	this->character.health_b = 0xFFFFFFFF;
 
 	//Character scale
 	this->character.scale = FIXED_DEC(1,1);
@@ -180,9 +186,13 @@ Character *Char_Spook_New(fixed_t x, fixed_t y)
 		"idle0.tim", //Spook_ArcMain_Idle0
 		"idle1.tim", //Spook_ArcMain_Idle1
 		"idle2.tim", //Spook_ArcMain_Idle2
-		"left.tim",  //Spook_ArcMain_Left
-		"down.tim",  //Spook_ArcMain_Down
-		"up.tim",    //Spook_ArcMain_Up
+		"idle3.tim", //Spook_ArcMain_Idle3
+		"left0.tim",  //Spook_ArcMain_Left0
+		"left1.tim",  //Spook_ArcMain_Left1
+		"down0.tim",  //Spook_ArcMain_Down0
+		"down1.tim",  //Spook_ArcMain_Down1
+		"up0.tim",    //Spook_ArcMain_Up0
+		"up1.tim",    //Spook_ArcMain_Up1
 		"right.tim", //Spook_ArcMain_Right
 		NULL
 	};
@@ -191,7 +201,7 @@ Character *Char_Spook_New(fixed_t x, fixed_t y)
 		*arc_ptr++ = Archive_Find(this->arc_main, *pathp);
 	
 	//Initialize render state
-	this->tex_id = this->frame = 0xFF;
+	this->tex_Id = this->frame = 0xFF;
 	
 	return (Character*)this;
 }

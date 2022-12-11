@@ -41,7 +41,8 @@ all: \
 	$(GFPATH)/weeb/main.arc \
 	iso/week1/normal/back.arc \
 	iso/week1/dark/back.arc \
-	iso/week2/back.arc \
+	iso/week2/normal/back.arc \
+	iso/week2/monster/back.arc \
 	iso/week3/back.arc \
 	iso/week4/back.arc \
 	iso/week4/hench.arc \
@@ -73,7 +74,7 @@ $(GFPATH)/normal/main.arc: $(GFPATH)/normal/gf0.tim $(GFPATH)/normal/gf1.tim $(G
 $(GFPATH)/normal/tut.arc: $(GFPATH)/normal/tut0.tim $(GFPATH)/normal/tut1.tim
 
 # Spook
-$(SPOOKPATH)/normal/main.arc: $(SPOOKPATH)/normal/idle0.tim $(SPOOKPATH)/normal/idle1.tim $(SPOOKPATH)/normal/idle2.tim $(SPOOKPATH)/normal/left.tim $(SPOOKPATH)/normal/down.tim $(SPOOKPATH)/normal/up.tim $(SPOOKPATH)/normal/right.tim
+$(SPOOKPATH)/normal/main.arc: $(SPOOKPATH)/normal/idle0.tim $(SPOOKPATH)/normal/idle1.tim $(SPOOKPATH)/normal/idle2.tim $(SPOOKPATH)/normal/idle3.tim $(SPOOKPATH)/normal/left0.tim $(SPOOKPATH)/normal/left1.tim $(SPOOKPATH)/normal/down0.tim $(SPOOKPATH)/normal/down1.tim $(SPOOKPATH)/normal/up0.tim $(SPOOKPATH)/normal/up1.tim $(SPOOKPATH)/normal/right.tim
 
 # Monster
 $(MONSTERPATH)/normal/main.arc: $(MONSTERPATH)/normal/idle0.tim $(MONSTERPATH)/normal/idle1.tim $(MONSTERPATH)/normal/left.tim $(MONSTERPATH)/normal/down.tim $(MONSTERPATH)/normal/up.tim $(MONSTERPATH)/normal/right.tim
@@ -114,8 +115,11 @@ iso/week1/normal/back.arc: iso/week1/normal/back0.tim iso/week1/normal/back1.tim
 # Week 1 Dark
 iso/week1/dark/back.arc: iso/week1/dark/back0.tim iso/week1/dark/back1.tim iso/week1/dark/back2.tim iso/week1/dark/bopper.tim
 
-# Week 2
-iso/week2/back.arc: iso/week2/back0.tim iso/week2/back1.tim iso/week2/back2.tim
+# Week 2 Normal
+iso/week2/normal/back.arc: iso/week2/normal/back0.tim iso/week2/normal/back1.tim
+
+# Week 2 Monster
+iso/week2/monster/back.arc: iso/week2/monster/back0.tim iso/week2/monster/back1.tim
 
 # Week 3
 iso/week3/back.arc: iso/week3/back0.tim iso/week3/back1.tim iso/week3/back2.tim iso/week3/back3.tim iso/week3/back4.tim iso/week3/back5.tim

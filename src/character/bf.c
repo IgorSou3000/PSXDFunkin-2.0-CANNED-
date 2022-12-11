@@ -169,6 +169,13 @@ void Char_BF_SetFrame(void *user, u8 frame)
 void Char_BF_Tick(Character *character)
 {
 	Char_BF *this = (Char_BF*)character;
+
+	//BF Camera stuff
+	if (stage.flag & STAGE_FLAG_JUST_STEP && stage.stage_id == StageId_1_3)
+	{
+		if (stage.song_step == 80)
+			this->character.focus_y = FIXED_DEC(-65,1);
+	}
 	
 	//Handle animation updates
 	if ((character->pad_held & (INPUT_LEFT | INPUT_DOWN | INPUT_UP | INPUT_RIGHT)) == 0 ||
@@ -285,8 +292,21 @@ Character *Char_BF_New(fixed_t x, fixed_t y)
 	//Character scale
 	this->character.scale = FIXED_DEC(1,1);
 	
-	this->character.focus_x = FIXED_DEC(-50,1);
-	this->character.focus_y = (stage.stage_id == StageId_1_4) ? FIXED_DEC(-85,1) : FIXED_DEC(-65,1);
+	this->character.focus_x = FIXED_DEC(-20,1);
+
+	switch (stage.stage_id)
+	{
+		case StageId_1_3:
+			this->character.focus_y = FIXED_DEC(-105,1);
+		break;
+		case StageId_1_4:
+			this->character.focus_y = FIXED_DEC(-85,1);
+		break;
+		default:
+			this->character.focus_y = FIXED_DEC(-65,1);
+		break;
+	}
+
 	this->character.focus_zoom = FIXED_DEC(1,1);
 	
 	//Load art

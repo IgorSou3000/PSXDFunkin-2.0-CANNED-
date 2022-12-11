@@ -89,25 +89,21 @@ void Back_Week1_DrawFG(StageBack *back)
 	fx = stage.camera.x;
 	fy = stage.camera.y;
 
-	//Draw Whitty and Carol
-	RECT whirol_src = {0, 0, 252, 124};
-	RECT_FIXED whirol_dst = {
-			FIXED_DEC(-45,1) - fx - (beat_bop * 2),
-			FIXED_DEC(40,1) -  fy + (beat_bop * 4),
-			FIXED_DEC(252,1) + (beat_bop * 4),
-			FIXED_DEC(124,1) - (beat_bop * 4),
+	//Draw Boppers
+	RECT boppers_src = {0, 0, 255, 126};
+	RECT_FIXED boppers_dst = {
+			FIXED_DEC(-300,1) - fx,
+			FIXED_DEC(40,1) -  fy + (beat_bop * 5),
+			FIXED_DEC(255,1),
+			FIXED_DEC(126,1) - (beat_bop * 5),
   };
-	Stage_DrawTex(&this->tex_bopper, &whirol_src, &whirol_dst, stage.camera.bzoom);
 
-	//Draw Booper 2 (sorry, i don't have sure who are these guys)
-	RECT bopper2_src = {0,130, 252, 107};
-	RECT_FIXED bopper2_dst = {
-			FIXED_DEC(-300,1) - fx - (beat_bop * 2),
-			FIXED_DEC(58,1) -  fy + (beat_bop * 4),
-			FIXED_DEC(252,1) + (beat_bop * 4),
-			FIXED_DEC(107,1) - (beat_bop * 4),
-  };
-	Stage_DrawTex(&this->tex_bopper, &bopper2_src, &bopper2_dst, stage.camera.bzoom);
+	Stage_DrawTex(&this->tex_bopper, &boppers_src, &boppers_dst, stage.camera.bzoom);
+
+	boppers_src.y += boppers_src.h;
+	boppers_dst.x += boppers_dst.w;
+
+	Stage_DrawTex(&this->tex_bopper, &boppers_src, &boppers_dst, stage.camera.bzoom);
 }
 
 void Back_Week1_DrawBG(StageBack *back)
@@ -115,11 +111,9 @@ void Back_Week1_DrawBG(StageBack *back)
 	Back_Week1 *this = (Back_Week1*)back;
 	
 	fixed_t fx, fy, fscroll;
-	
-	fscroll = FIXED_DEC(9,10);
 
-	fx = FIXED_MUL(stage.camera.x, fscroll);
-	fy = FIXED_MUL(stage.camera.y, fscroll);
+	fx = stage.camera.x;
+	fy = stage.camera.y;
 
 	//Draw stage front
 	RECT front_src = {0, 0, 224, 68};
@@ -130,14 +124,6 @@ void Back_Week1_DrawBG(StageBack *back)
 		FIXED_DEC(68 + 8,1)
 	};
 	
-	Stage_DrawTex(&this->tex_back2, &front_src, &front_dst, stage.camera.bzoom);
-
-	//Draw the second part of stage front
-	front_src.y += front_src.h;
-	front_dst.x += front_dst.w;
-
-	Stage_DrawTex(&this->tex_back2, &front_src, &front_dst, stage.camera.bzoom);
-	
 	//Draw stage back
 	RECT back_src = {0, 0, 220, 248};
 	RECT_FIXED back_dst = {
@@ -146,12 +132,18 @@ void Back_Week1_DrawBG(StageBack *back)
 		FIXED_DEC(220,1),
 		FIXED_DEC(248,1)
 	};
-	
-	Stage_DrawTex(&this->tex_back0, &back_src, &back_dst, stage.camera.bzoom);
 
+	Stage_DrawTex(&this->tex_back2, &front_src, &front_dst, stage.camera.bzoom);
+
+	//Draw the second part of stage front
+	front_src.y += front_src.h;
+	front_dst.x += front_dst.w;
+	Stage_DrawTex(&this->tex_back2, &front_src, &front_dst, stage.camera.bzoom);
+
+
+	Stage_DrawTex(&this->tex_back0, &back_src, &back_dst, stage.camera.bzoom);
 	//Draw the second part of stage back
 	back_dst.x += back_dst.w;
-
 	Stage_DrawTex(&this->tex_back1, &back_src, &back_dst, stage.camera.bzoom);
 }
 

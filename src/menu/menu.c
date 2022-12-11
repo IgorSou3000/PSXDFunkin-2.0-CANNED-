@@ -686,8 +686,8 @@ void Menu_Tick(void)
 			Menu_DrawBack(
 				menu.next_page == menu.page || menu.next_page == MenuPage_Title, 
 				menu.scroll / (FIXED_UNIT * 4),
-				253 / 2, 231 / 2, 113 / 2,
-				253 / 2, 113 / 2, 155 / 2
+				207 / 2, 143 / 2, 255 / 2,
+				255 / 2, 172 / 2, 178 / 2
 			);
 			break;
 		}
