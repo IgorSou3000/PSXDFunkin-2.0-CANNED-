@@ -88,6 +88,9 @@
 				<file name = "2.4e.cht" type = "data" source = "iso/songs/monster/monster-easy.cht"/>
 				<file name = "2.4n.cht" type = "data" source = "iso/songs/monster/monster.cht"/>
 				<file name = "2.4h.cht" type = "data" source = "iso/songs/monster/monster-hard.cht"/>
+
+				<!-- Week2 Sounds -->
+				<file name = "monster.vag" type = "data" source = "iso/sounds/week2/monster.vag"/>
 			</dir>
 			
 			<!-- Week 3 assets -->

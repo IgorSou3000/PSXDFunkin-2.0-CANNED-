@@ -8,6 +8,7 @@
 
 #include "psx/mem.h"
 #include "psx/archive.h"
+#include "psx/timer.h"
 
 //Week 2 background structure
 typedef struct
@@ -19,9 +20,45 @@ typedef struct
 	Gfx_Tex tex_back0; //Background 1
 	Gfx_Tex tex_back1; //Background 2
 
+	//Week 2 Sound
+	SFX sounds[3];
+
+	//Week 2 Thunder/monster jumpscare
+	fixed_t thunder, thunderspd;
+
 	//Check if it the monster stage
 	boolean is_monster;
 } Back_Week2;
+
+void Back_Week2_Tick(StageBack *back)
+{
+	Back_Week2 *this = (Back_Week2*)back;
+	
+	//Monster "jumpscare"
+	if (stage.story && this->is_monster && stage.song_step == -29 && stage.flag & STAGE_FLAG_JUST_STEP)
+	{
+		//Play Jumpscare Sound
+		Audio_PlaySFX(this->sounds[2], 80);
+
+		//Set thunder stuff
+		this->thunder = FIXED_DEC(255,1);
+		this->thunderspd = FIXED_DEC(160,1);
+	}
+}
+
+void Back_Week2_DrawFG(StageBack *back)
+{
+	Back_Week2 *this = (Back_Week2*)back;
+	
+	//Draw Thunder
+	if (this->thunder > 0)
+	{
+		static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+		u8 flash_col = this->thunder / FIXED_UNIT;
+		Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 1);
+		this->thunder -= FIXED_MUL(this->thunderspd, timer_dt);
+	}
+}
 
 //Week 2 background functions
 void Back_Week2_DrawBG(StageBack *back)
@@ -46,6 +83,15 @@ void Back_Week2_DrawBG(StageBack *back)
 	back_dst.x += back_dst.w;
 	
 	Stage_DrawTex(&this->tex_back1, &back_src, &back_dst, stage.camera.bzoom);
+
+	back_dst.x -= back_dst.w;
+	back_src.h = 1;
+	back_dst.y -= back_dst.h;
+
+	Stage_DrawTex(&this->tex_back0, &back_src, &back_dst, stage.camera.bzoom);
+
+	back_dst.x += back_dst.w;
+	Stage_DrawTex(&this->tex_back1, &back_src, &back_dst, stage.camera.bzoom);
 }
 
 void Back_Week2_Free(StageBack *back)
@@ -67,16 +113,25 @@ StageBack *Back_Week2_New(void)
 	this->is_monster = (stage.stage_id == StageId_2_4);
 	
 	//Set background functions
-	this->back.tick = NULL;
-	this->back.draw_fg = NULL;
+	this->back.tick = Back_Week2_Tick;
+	this->back.draw_fg = Back_Week2_DrawFG;
 	this->back.draw_md = NULL;
 	this->back.draw_bg = Back_Week2_DrawBG;
 	this->back.free = Back_Week2_Free;
 
 	//Set stage timer color
-	stage.timercolor.r = 119;
-	stage.timercolor.g = 242;
-	stage.timercolor.b = 251;
+	if (this->is_monster)
+	{
+	stage.timercolor.r = 198;
+	stage.timercolor.g = 18;
+	stage.timercolor.b = 52;
+	}
+	else
+	{
+		stage.timercolor.r = 119;
+		stage.timercolor.g = 242;
+		stage.timercolor.b = 251;
+	}
 	
 	//Load HUD textures
 	Gfx_LoadTex(&stage.tex_hud0, IO_Read("\\STAGE\\HUD0.TIM;1"), GFX_LOADTEX_FREE);
@@ -96,6 +151,12 @@ StageBack *Back_Week2_New(void)
 	Gfx_LoadTex(&this->tex_back0, Archive_Find(arc_back, "back0.tim"), 0);
 	Gfx_LoadTex(&this->tex_back1, Archive_Find(arc_back, "back1.tim"), 0);
 	Mem_Free(arc_back);
+
+	//Load Sounds
+	this->sounds[2] = Audio_LoadSFX("\\WEEK2\\MONSTER.VAG;1");
+
+	//Initialize thunder state
+	this->thunder = this->thunderspd = 0;
 	
 	return (StageBack*)this;
 }

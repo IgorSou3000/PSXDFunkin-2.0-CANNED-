@@ -34,6 +34,7 @@
 #define STAGE_LOAD_OPPONENT   (1 << 1) //Reload opponent character
 #define STAGE_LOAD_GIRLFRIEND (1 << 2) //Reload girlfriend character
 #define STAGE_LOAD_STAGE      (1 << 3) //Reload stage
+#define STAGE_LOAD_NOTRANS    (1 << 4) //No transition between stages
 #define STAGE_LOAD_FLAG       (1 << 7)
 
 //Stage enums

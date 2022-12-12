@@ -20,7 +20,6 @@ typedef struct
 	Gfx_Tex tex_back0; //Stage back 1
 	Gfx_Tex tex_back1; //Stage back 2
 	Gfx_Tex tex_back2; //Stage front
-	Gfx_Tex tex_bopper; //Boppers
 } Back_Week1;
 
 //Week 1 functions
@@ -73,37 +72,6 @@ void Back_Week1_Tick(StageBack *back)
 				break;
 		}
 	}
-}
-void Back_Week1_DrawFG(StageBack *back)
-{
-	Back_Week1 *this = (Back_Week1*)back;
-	
-	fixed_t fx, fy;
-
-	fixed_t beat_bop;
-	if ((stage.song_step % 0x4) == 0)
-		beat_bop = FIXED_UNIT - ((stage.note_scroll / 24) & FIXED_LAND);
-	else
-		beat_bop = 0;
-
-	fx = stage.camera.x;
-	fy = stage.camera.y;
-
-	//Draw Boppers
-	RECT boppers_src = {0, 0, 255, 126};
-	RECT_FIXED boppers_dst = {
-			FIXED_DEC(-300,1) - fx,
-			FIXED_DEC(40,1) -  fy + (beat_bop * 5),
-			FIXED_DEC(255,1),
-			FIXED_DEC(126,1) - (beat_bop * 5),
-  };
-
-	Stage_DrawTex(&this->tex_bopper, &boppers_src, &boppers_dst, stage.camera.bzoom);
-
-	boppers_src.y += boppers_src.h;
-	boppers_dst.x += boppers_dst.w;
-
-	Stage_DrawTex(&this->tex_bopper, &boppers_src, &boppers_dst, stage.camera.bzoom);
 }
 
 void Back_Week1_DrawBG(StageBack *back)
@@ -164,7 +132,7 @@ StageBack *Back_Week1_New(void)
 	
 	//Set background functions
 	this->back.tick = Back_Week1_Tick;
-	this->back.draw_fg = (stage.darkstage) ? Back_Week1_DrawFG : NULL; //Draw bopper if it the dark stage
+	this->back.draw_fg = NULL; //Draw bopper if it the dark stage
 	this->back.draw_md = NULL;
 	this->back.draw_bg =  Back_Week1_DrawBG;
 	this->back.free = Back_Week1_Free;
@@ -190,10 +158,6 @@ StageBack *Back_Week1_New(void)
 	Gfx_LoadTex(&this->tex_back0, Archive_Find(arc_back, "back0.tim"), 0);
 	Gfx_LoadTex(&this->tex_back1, Archive_Find(arc_back, "back1.tim"), 0);
 	Gfx_LoadTex(&this->tex_back2, Archive_Find(arc_back, "back2.tim"), 0);
-
-	if (stage.darkstage)
-		Gfx_LoadTex(&this->tex_bopper, Archive_Find(arc_back, "bopper.tim"), 0);
-
 	Mem_Free(arc_back);
 	
 	return (StageBack*)this;

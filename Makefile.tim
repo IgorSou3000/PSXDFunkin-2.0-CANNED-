@@ -77,7 +77,7 @@ $(GFPATH)/normal/tut.arc: $(GFPATH)/normal/tut0.tim $(GFPATH)/normal/tut1.tim
 $(SPOOKPATH)/normal/main.arc: $(SPOOKPATH)/normal/idle0.tim $(SPOOKPATH)/normal/idle1.tim $(SPOOKPATH)/normal/idle2.tim $(SPOOKPATH)/normal/idle3.tim $(SPOOKPATH)/normal/left0.tim $(SPOOKPATH)/normal/left1.tim $(SPOOKPATH)/normal/down0.tim $(SPOOKPATH)/normal/down1.tim $(SPOOKPATH)/normal/up0.tim $(SPOOKPATH)/normal/up1.tim $(SPOOKPATH)/normal/right.tim
 
 # Monster
-$(MONSTERPATH)/normal/main.arc: $(MONSTERPATH)/normal/idle0.tim $(MONSTERPATH)/normal/idle1.tim $(MONSTERPATH)/normal/left.tim $(MONSTERPATH)/normal/down.tim $(MONSTERPATH)/normal/up.tim $(MONSTERPATH)/normal/right.tim
+$(MONSTERPATH)/normal/main.arc: $(MONSTERPATH)/normal/idle0.tim $(MONSTERPATH)/normal/idle1.tim  $(MONSTERPATH)/normal/idle2.tim  $(MONSTERPATH)/normal/idle3.tim  $(MONSTERPATH)/normal/idle4.tim  $(MONSTERPATH)/normal/idle5.tim  $(MONSTERPATH)/normal/idle6.tim  $(MONSTERPATH)/normal/idle7.tim  $(MONSTERPATH)/normal/left0.tim $(MONSTERPATH)/normal/left1.tim $(MONSTERPATH)/normal/left2.tim $(MONSTERPATH)/normal/down0.tim $(MONSTERPATH)/normal/down1.tim $(MONSTERPATH)/normal/down2.tim $(MONSTERPATH)/normal/up0.tim  $(MONSTERPATH)/normal/up1.tim $(MONSTERPATH)/normal/up2.tim  $(MONSTERPATH)/normal/up3.tim  $(MONSTERPATH)/normal/up4.tim $(MONSTERPATH)/normal/right0.tim $(MONSTERPATH)/normal/right1.tim $(MONSTERPATH)/normal/right2.tim $(MONSTERPATH)/normal/right3.tim $(MONSTERPATH)/normal/right4.tim $(MONSTERPATH)/normal/right5.tim
 
 # Pico
 $(PICOPATH)/normal/main.arc: $(PICOPATH)/normal/idle.tim $(PICOPATH)/normal/hit0.tim $(PICOPATH)/normal/hit1.tim
@@ -113,7 +113,7 @@ $(GFPATH)/weeb/main.arc: $(GFPATH)/weeb/gf0.tim $(GFPATH)/weeb/gf1.tim
 iso/week1/normal/back.arc: iso/week1/normal/back0.tim iso/week1/normal/back1.tim iso/week1/normal/back2.tim
 
 # Week 1 Dark
-iso/week1/dark/back.arc: iso/week1/dark/back0.tim iso/week1/dark/back1.tim iso/week1/dark/back2.tim iso/week1/dark/bopper.tim
+iso/week1/dark/back.arc: iso/week1/dark/back0.tim iso/week1/dark/back1.tim iso/week1/dark/back2.tim
 
 # Week 2 Normal
 iso/week2/normal/back.arc: iso/week2/normal/back0.tim iso/week2/normal/back1.tim

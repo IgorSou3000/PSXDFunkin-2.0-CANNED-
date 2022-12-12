@@ -20,7 +20,7 @@ static const XA_TrackDef xa_tracks[] = {
 	{XA_Week2A, XA_LENGTH(10700)}, //XA_Spookeez
 	{XA_Week2A, XA_LENGTH(8900)}, //XA_South
 	//WEEK2B.XA
-	{XA_Week2B, XA_LENGTH(11100)}, //XA_Ghastly
+	{XA_Week2B, XA_LENGTH(10100)}, //XA_Ghastly
 	{XA_Week2B, XA_LENGTH(14700)}, //XA_Monster
 	//WEEK3A.XA
 	{XA_Week3A, XA_LENGTH(8700)},  //XA_Pico

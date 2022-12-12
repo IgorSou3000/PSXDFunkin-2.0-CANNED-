@@ -102,12 +102,12 @@
 		2, 3,
 		XA_Ghastly, 0,
 		
-		StageId_2_4, STAGE_LOAD_FLAG | STAGE_LOAD_OPPONENT
+		StageId_2_4, STAGE_LOAD_FLAG | STAGE_LOAD_OPPONENT  | STAGE_LOAD_STAGE | STAGE_LOAD_NOTRANS
 	},
 	{ //StageId_2_4 (Monster)
 		//Characters
 		{Char_BF_New,      FIXED_DEC(56,1),   FIXED_DEC(75,1)},
-		{Char_Monster_New,  FIXED_DEC(-90,1),   FIXED_DEC(85,1)},
+		{Char_Monster_New,  FIXED_DEC(-160,1),   FIXED_DEC(85,1)},
 		{Char_GF_New,       FIXED_DEC(0,1),  FIXED_DEC(-15,1)},
 		
 		//Stage background

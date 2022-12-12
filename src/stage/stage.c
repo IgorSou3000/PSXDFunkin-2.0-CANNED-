@@ -626,10 +626,10 @@ static void Stage_TimerTick(void)
 	{
 			//Don't change anything if timer be 0
 			if (stage.timer != 0)
-   			stage.timer = Audio_GetLength(stage.stage_def->music_track) - (stage.song_time / FIXED_UNIT); //Seconds (ticks down)
+   			stage.timer = Audio_GetLength(stage.stage_def->music_track) - (stage.song_time / FIXED_UNIT) - 1; //Seconds (ticks down)
   }
 
-  else //If not keep the timer at the song starting length	
+  else //Else keep the timer	
  	    stage.timer = Audio_GetLength(stage.stage_def->music_track); //Seconds (ticks down)
 
   stage.timermin = stage.timer / 60; //Minutes left till song ends
@@ -1099,6 +1099,20 @@ static void Stage_DrawNotes(void)
 }
 
 //Stage loads
+static fixed_t Stage_LoadScrollLength(void)
+{
+	switch (stage.stage_id)
+	{
+		case StageId_2_4: //Monster jumpscare
+			return FIXED_DEC(-6 * 5 * 12,1); //(-30)
+		break;
+
+		default:
+		break;
+	}
+
+	return FIXED_DEC(-5 * 5 * 12,1); //Default value (-25)
+}
 static void Stage_CheckDark(void)
 {
 	//Check which stageid the character/stage will use the dark variation
@@ -1313,7 +1327,7 @@ static void Stage_LoadMusic(void)
 	Audio_SeekXA_Track(stage.stage_def->music_track);
 	
 	//Initialize music state
-	stage.note_scroll = FIXED_DEC(-5 * 5 * 12,1);
+	stage.note_scroll = Stage_LoadScrollLength();
 	stage.song_time = FIXED_DIV(stage.note_scroll, stage.step_crochet);
 	stage.interp_time = 0;
 	stage.interp_ms = 0;
@@ -1385,6 +1399,24 @@ static void Stage_LoadState(void)
 }
 
 //Stage functions
+static void Stage_InitCamera(void)
+{
+	//Set camera focus
+	if (stage.cur_section->flag & SECTION_FLAG_OPPFOCUS)
+		Stage_FocusCharacter(stage.opponent, FIXED_UNIT);
+	else
+		Stage_FocusCharacter(stage.player, FIXED_UNIT);
+	
+	//Initialize camera to focus
+	stage.camera.x = stage.camera.tx;
+	stage.camera.y = stage.camera.ty;
+	stage.camera.zoom = stage.camera.tz;
+	
+	stage.bump = FIXED_UNIT;
+	stage.sbump = FIXED_UNIT;
+	stage.charbump = FIXED_UNIT;
+}
+
 void Stage_Load(StageId id, StageDiff difficulty, boolean story)
 {
 	//Get stage definition
@@ -1403,6 +1435,9 @@ void Stage_Load(StageId id, StageDiff difficulty, boolean story)
 
 	//Check dark variations
 	Stage_CheckDark();
+
+	//Load Sound effects
+	Stage_LoadSFX();
 	
 	//Load stage background
 	Stage_LoadStage();
@@ -1426,19 +1461,7 @@ void Stage_Load(StageId id, StageDiff difficulty, boolean story)
 	FontData_Load(&stage.font_bold, Font_Bold, false);
 	
 	//Initialize camera
-	if ((stage.cur_section->flag & SECTION_FLAG_OPPFOCUS && stage.opponent != NULL) || (stage.player == NULL))
-		Stage_FocusCharacter(stage.opponent, FIXED_UNIT);
-	else
-		Stage_FocusCharacter(stage.player, FIXED_UNIT);
-	stage.camera.x = stage.camera.tx;
-	stage.camera.y = stage.camera.ty;
-	stage.camera.zoom = stage.camera.tz;
-	
-	stage.bump = FIXED_UNIT;
-	stage.sbump = FIXED_UNIT;
-
-	//Load Sound effects
-	Stage_LoadSFX();
+	 Stage_InitCamera();
 	
 	//Load music
 	stage.note_scroll = 0;
@@ -1546,12 +1569,17 @@ static boolean Stage_NextLoad(void)
 		//Reset timer
 		Timer_Reset();
 
+		//Initialize Camera
+		Stage_InitCamera();
+
 		return true;
 	}
 }
 
 void Stage_Tick(void)
 {
+	SeamLoad:;
+
 	//Tick transition
 	if (Trans_Tick())
 	{
@@ -1601,6 +1629,8 @@ void Stage_Tick(void)
 			//Get song position
 			boolean playing = false;
 			fixed_t next_scroll;
+
+			FntPrint("step is %d", stage.song_step);
 			
 			if (!(stage.flag & STAGE_FLAG_PAUSED))
 			{
@@ -1661,8 +1691,16 @@ void Stage_Tick(void)
 					//Transition to menu or next song
 					if (stage.story && stage.stage_def->next_stage != stage.stage_id)
 					{
-						stage.trans = StageTrans_NextStage;
-						Trans_Start();
+						if (stage.stage_def->next_load & STAGE_LOAD_NOTRANS)
+						{
+								if (Stage_NextLoad())
+									goto SeamLoad;
+						}
+						else
+						{
+							stage.trans = StageTrans_NextStage;
+							Trans_Start();
+						}
 					}
 					else
 					{
@@ -1999,7 +2037,7 @@ void Stage_Tick(void)
 			
 			//Reset stage state
 			stage.flag = 0;
-			stage.bump = stage.sbump = FIXED_UNIT;
+			stage.bump = stage.sbump = stage.charbump = FIXED_UNIT;
 			
 			//Change background colour to black
 			Gfx_SetClear(0, 0, 0);
