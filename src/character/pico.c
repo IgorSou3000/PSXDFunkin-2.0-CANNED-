@@ -14,9 +14,11 @@
 //Pico character structure
 enum
 {
-	Pico_ArcMain_Idle,
+	Pico_ArcMain_Idle0,
+	Pico_ArcMain_Idle1,
 	Pico_ArcMain_Hit0,
 	Pico_ArcMain_Hit1,
+	Pico_ArcMain_Hit2,
 	
 	Pico_Arc_Max,
 };
@@ -31,38 +33,40 @@ typedef struct
 	IO_Data arc_ptr[Pico_Arc_Max];
 	
 	Gfx_Tex tex;
-	u8 frame, tex_id;
+	u8 frame, tex_Id;
 } Char_Pico;
 
 //Pico character definitions
 static const CharFrame char_pico_frame[] = {
-	{Pico_ArcMain_Idle, {  0,   0, 110, 116}, { 64, 104}}, //0 idle 1
-	{Pico_ArcMain_Idle, {111,   0, 112, 118}, { 64, 106}}, //1 idle 2
-	{Pico_ArcMain_Idle, {  0, 117, 112, 119}, { 62, 107}}, //2 idle 3
-	{Pico_ArcMain_Idle, {113, 119, 111, 120}, { 61, 108}}, //3 idle 4
+	{Pico_ArcMain_Idle0,{0,0,110,124},{64,104}},
+	{Pico_ArcMain_Idle0,{115,0,135,124},{66,104}},
+	{Pico_ArcMain_Idle0,{0,128,110,127},{64,108}},
+	{Pico_ArcMain_Idle0,{127,128,128,127},{65,108}},
+	{Pico_ArcMain_Idle1,{0,0,124,132},{69,110}},
+	{Pico_ArcMain_Idle1,{124,0,124,132},{71,110}},
 	
-	{Pico_ArcMain_Hit0, {  0,   0, 115, 120}, { 77, 110}}, //4 left 1
-	{Pico_ArcMain_Hit0, {116,   0, 111, 119}, { 73, 109}}, //5 left 2
+	{Pico_ArcMain_Hit0,{0,0,120,125},{83,103}},
+	{Pico_ArcMain_Hit0,{120,0,120,125},{82,106}},
+
+	{Pico_ArcMain_Hit0,{0,126,115,125},{68,90}},
+	{Pico_ArcMain_Hit0,{115,126,115,125},{70,90}},
 	
-	{Pico_ArcMain_Hit0, {  0, 121, 124,  96}, { 53,  85}}, //6 down 1
-	{Pico_ArcMain_Hit0, {125, 120, 126,  98}, { 51,  87}}, //7 down 2
-	
-	{Pico_ArcMain_Hit1, {  0,   0, 109, 125}, { 51, 117}}, //8 up 1
-	{Pico_ArcMain_Hit1, {110,   0, 109, 123}, { 53, 116}}, //9 up 2
-	
-	{Pico_ArcMain_Hit1, {  0, 126, 113, 116}, { 41, 105}}, //10 right 1
-	{Pico_ArcMain_Hit1, {114, 124, 114, 117}, { 40, 106}}, //11 right 2
+	{Pico_ArcMain_Hit1,{0,0,126,144},{52,124}},
+	{Pico_ArcMain_Hit1,{128,0,126,144},{54,121}},
+
+	{Pico_ArcMain_Hit2,{0,0,108,136},{58,112}},
+	{Pico_ArcMain_Hit2,{108,0,108,136},{59,112}},
 };
 
 static const Animation char_pico_anim[CharAnim_Max] = {
-	{2, (const u8[]){ 0,  1,  2,  3, ASCR_BACK, 1}}, //CharAnim_Idle
-	{2, (const u8[]){ 4,  5, ASCR_BACK, 1}},         //CharAnim_Left
+	{1, (const u8[]){ 0,  0,  1,  1,  2,  3,  4,  4,  5,  5,  ASCR_BACK, 1}}, //CharAnim_Idle
+	{2, (const u8[]){ 6,  7, ASCR_BACK, 1}},         //CharAnim_Left
 	{0, (const u8[]){ASCR_CHGANI, CharAnim_Idle}},   //CharAnim_LeftAlt
-	{2, (const u8[]){ 6,  7, ASCR_BACK, 1}},         //CharAnim_Down
+	{2, (const u8[]){ 8,  9, ASCR_BACK, 1}},         //CharAnim_Down
 	{0, (const u8[]){ASCR_CHGANI, CharAnim_Idle}},   //CharAnim_DownAlt
-	{2, (const u8[]){ 8,  9, ASCR_BACK, 1}},         //CharAnim_Up
+	{2, (const u8[]){10, 11, ASCR_BACK, 1}},         //CharAnim_Up
 	{0, (const u8[]){ASCR_CHGANI, CharAnim_Idle}},   //CharAnim_UpAlt
-	{2, (const u8[]){10, 11, ASCR_BACK, 1}},         //CharAnim_Right
+	{2, (const u8[]){12, 13, ASCR_BACK, 1}},         //CharAnim_Right
 	{0, (const u8[]){ASCR_CHGANI, CharAnim_Idle}},   //CharAnim_RightAlt
 };
 
@@ -76,8 +80,8 @@ void Char_Pico_SetFrame(void *user, u8 frame)
 	{
 		//Check if new art shall be loaded
 		const CharFrame *cframe = &char_pico_frame[this->frame = frame];
-		if (cframe->tex != this->tex_id)
-			Gfx_LoadTex(&this->tex, this->arc_ptr[this->tex_id = cframe->tex], 0);
+		if (cframe->tex != this->tex_Id)
+			Gfx_LoadTex(&this->tex, this->arc_ptr[this->tex_Id = cframe->tex], 0);
 	}
 }
 
@@ -148,9 +152,11 @@ Character *Char_Pico_New(fixed_t x, fixed_t y)
 	this->arc_main = IO_Read("\\CHAR\\PICO.ARC;1");
 	
 	const char **pathp = (const char *[]){
-		"idle.tim", //Pico_ArcMain_Idle0
+		"idle0.tim", //Pico_ArcMain_Idle0
+		"idle1.tim", //Pico_ArcMain_Idle1
 		"hit0.tim", //Pico_ArcMain_Hit0
 		"hit1.tim", //Pico_ArcMain_Hit1
+		"hit2.tim", //Pico_ArcMain_Hit2
 		NULL
 	};
 	IO_Data *arc_ptr = this->arc_ptr;
@@ -158,7 +164,7 @@ Character *Char_Pico_New(fixed_t x, fixed_t y)
 		*arc_ptr++ = Archive_Find(this->arc_main, *pathp);
 	
 	//Initialize render state
-	this->tex_id = this->frame = 0xFF;
+	this->tex_Id = this->frame = 0xFF;
 	
 	return (Character*)this;
 }

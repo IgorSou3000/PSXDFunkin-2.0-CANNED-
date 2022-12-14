@@ -58,35 +58,35 @@ typedef struct
 
 //Monster character definitions
 static const CharFrame char_monster_frame[] = {
-	{Monster_ArcMain_Idle0,{0,0,200,180},{52,159}},
-	{Monster_ArcMain_Idle1,{0,0,200,180},{52,159}},
-	{Monster_ArcMain_Idle2,{0,0,200,180},{52,159}},
-	{Monster_ArcMain_Idle3,{0,0,200,180},{53,164}},
-	{Monster_ArcMain_Idle4,{0,0,200,200},{55,178}},
-	{Monster_ArcMain_Idle5,{0,0,200,200},{56,178}},
-	{Monster_ArcMain_Idle6,{0,0,200,200},{56,178}},
-	{Monster_ArcMain_Idle7,{0,0,200,200},{56,178}},
+	{Monster_ArcMain_Idle0,{  0,  0,200,180},{ 52,159}}, // 0 idle 1
+	{Monster_ArcMain_Idle1,{  0,  0,200,180},{ 52,159}}, // 1 idle 2
+	{Monster_ArcMain_Idle2,{  0,  0,200,180},{ 52,159}}, // 2 idle 3
+	{Monster_ArcMain_Idle3,{  0,  0,200,180},{ 53,164}}, // 3 idle 4
+	{Monster_ArcMain_Idle4,{  0,  0,200,200},{ 55,178}}, // 4 idle 5
+	{Monster_ArcMain_Idle5,{  0,  0,200,200},{ 56,178}}, // 5 idle 6
+	{Monster_ArcMain_Idle6,{  0,  0,200,200},{ 56,178}}, // 6 idle 7
+	{Monster_ArcMain_Idle7,{  0,  0,200,200},{ 56,178}}, // 7 idle 8
 	
-	{Monster_ArcMain_Left0,{0,0,200,200},{57,178}},
-	{Monster_ArcMain_Left1,{0,0,200,200},{57,178}},
-	{Monster_ArcMain_Left2,{0,0,200,200},{57,178}},
+	{Monster_ArcMain_Left0,{  0,  0,200,200},{ 57,178}}, // 8 left 1
+	{Monster_ArcMain_Left1,{  0,  0,200,200},{ 57,178}}, // 9 left 2
+	{Monster_ArcMain_Left2,{  0,  0,200,200},{ 57,178}}, //10 left 3
 	
-	{Monster_ArcMain_Down0,{0,0,200,200},{55,176}},
-	{Monster_ArcMain_Down1,{0,0,200,200},{55,176}},
-	{Monster_ArcMain_Down2,{0,0,200,200},{55,176}},
+	{Monster_ArcMain_Down0,{  0,  0,200,200},{ 55,176}}, //11 down 1
+	{Monster_ArcMain_Down1,{  0,  0,200,200},{ 55,176}}, //12 down 2
+	{Monster_ArcMain_Down2,{  0,  0,200,200},{ 55,176}}, //13 down 3
 	
-	{Monster_ArcMain_Up0,{0,0,200,200},{57,189}},
-	{Monster_ArcMain_Up1,{0,0,200,210},{57,197}},
-	{Monster_ArcMain_Up2,{0,0,200,210},{57,197}},
-	{Monster_ArcMain_Up3,{0,0,200,210},{57,198}},
-	{Monster_ArcMain_Up4,{0,0,200,210},{57,198}},
+	{Monster_ArcMain_Up0,{  0,  0,200,200},{ 57,189}}, //14 up 1
+	{Monster_ArcMain_Up1,{  0,  0,200,210},{ 57,197}}, //15 up 2
+	{Monster_ArcMain_Up2,{  0,  0,200,210},{ 57,197}}, //16 up 3
+	{Monster_ArcMain_Up3,{  0,  0,200,210},{ 57,198}}, //17 up 4
+	{Monster_ArcMain_Up4,{  0,  0,200,210},{ 57,198}}, //18 up 5
 	
-	{Monster_ArcMain_Right0,{0,0,200,200},{49,179}},
-	{Monster_ArcMain_Right1,{0,0,200,200},{49,179}},
-	{Monster_ArcMain_Right2,{0,0,200,200},{49,179}},
-	{Monster_ArcMain_Right3,{0,0,200,200},{49,179}},
-	{Monster_ArcMain_Right4,{0,0,200,200},{49,179}},
-	{Monster_ArcMain_Right5,{0,0,200,200},{49,179}},
+	{Monster_ArcMain_Right0,{  0,  0,200,200},{ 49,179}}, //19 right 1
+	{Monster_ArcMain_Right1,{  0,  0,200,200},{ 49,179}}, //20 right 2
+	{Monster_ArcMain_Right2,{  0,  0,200,200},{ 49,179}}, //21 right 3
+	{Monster_ArcMain_Right3,{  0,  0,200,200},{ 49,179}}, //22 right 4
+	{Monster_ArcMain_Right4,{  0,  0,200,200},{ 49,179}}, //23 right 5
+	{Monster_ArcMain_Right5,{  0,  0,200,200},{ 49,179}}, //24 right 6
 };
 
 static const Animation char_monster_anim[CharAnim_Max] = {
@@ -175,6 +175,7 @@ Character *Char_Monster_New(fixed_t x, fixed_t y)
 	//Character scale
 	this->character.scale = FIXED_DEC(1,1);
 	
+	this->character.focus_x =  FIXED_DEC(47,1);
 	this->character.focus_x =  FIXED_DEC(135,1);
 	this->character.focus_y = FIXED_DEC(-100,1);
 	this->character.focus_zoom = FIXED_DEC(1,1);

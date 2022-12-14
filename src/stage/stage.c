@@ -143,11 +143,11 @@ static void Stage_ChangeBPM(u16 bpm, u16 step)
 	
 	//Update timing base
 	if (stage.step_crochet)
-		stage.time_base += FIXED_DIV(((fixed_t)step - stage.step_base) * FIXED_UNIT, stage.step_crochet);
+		stage.time_base += FIXED_DIV(((fixed_t)step - stage.step_base) << FIXED_SHIFT, stage.step_crochet);
 	stage.step_base = step;
 	
 	//Get new crochet and times
-	stage.step_crochet = ((fixed_t)bpm * FIXED_UNIT) * 8 / 240; //15/12/24
+	stage.step_crochet = ((fixed_t)bpm << FIXED_SHIFT) * 8 / 240; //15/12/24
 	stage.step_time = FIXED_DIV(FIXED_DEC(12,1), stage.step_crochet);
 	
 	//Get new crochet based values
@@ -300,7 +300,7 @@ static void Stage_NoteCheck(PlayerState *this, u8 type)
 		if (!(note->type & NOTE_FLAG_MINE))
 		{
 			//Check if note can be hit
-			fixed_t note_fp = (fixed_t)note->pos * FIXED_UNIT;
+			fixed_t note_fp = (fixed_t)note->pos << FIXED_SHIFT;
 			if (note_fp - stage.early_safe > stage.note_scroll)
 				break;
 			if (note_fp + stage.late_safe < stage.note_scroll)
@@ -323,7 +323,7 @@ static void Stage_NoteCheck(PlayerState *this, u8 type)
 		else
 		{
 			//Check if mine can be hit
-			fixed_t note_fp = (fixed_t)note->pos * FIXED_UNIT;
+			fixed_t note_fp = (fixed_t)note->pos << FIXED_SHIFT;
 			if (note_fp - (stage.late_safe * 3 / 5) > stage.note_scroll)
 				break;
 			if (note_fp + (stage.late_safe * 2 / 5) < stage.note_scroll)
@@ -378,7 +378,7 @@ static void Stage_SustainCheck(PlayerState *this, u8 type)
 	for (Note *note = stage.cur_note;; note++)
 	{
 		//Check if note can be hit
-		fixed_t note_fp = (fixed_t)note->pos * FIXED_UNIT;
+		fixed_t note_fp = (fixed_t)note->pos << FIXED_SHIFT;
 		if (note_fp - stage.early_sus_safe > stage.note_scroll)
 			break;
 		if (note_fp + stage.late_sus_safe < stage.note_scroll)
@@ -447,7 +447,7 @@ static void Stage_ProcessPlayer(PlayerState *this, Pad *pad, boolean playing)
 			for (Note *note = stage.cur_note;; note++)
 			{
 				//Check if note can be hit
-				fixed_t note_fp = (fixed_t)note->pos * FIXED_UNIT;
+				fixed_t note_fp = (fixed_t)note->pos << FIXED_SHIFT;
 				if (note_fp - stage.early_safe - FIXED_DEC(12,1) > stage.note_scroll)
 					break;
 				if (note_fp + stage.late_safe < stage.note_scroll)
@@ -514,8 +514,8 @@ void Stage_DrawTexRotateCol(Gfx_Tex *tex, const RECT *src, const RECT_FIXED *dst
 			return;
 	#endif
 	
-	fixed_t l = (SCREEN_WIDTH2  * FIXED_UNIT) + FIXED_MUL(xz, zoom);// + FIXED_DEC(1,2);
-	fixed_t t = (SCREEN_HEIGHT2 * FIXED_UNIT) + FIXED_MUL(yz, zoom);// + FIXED_DEC(1,2);
+	fixed_t l = (SCREEN_WIDTH2  << FIXED_SHIFT) + FIXED_MUL(xz, zoom);// + FIXED_DEC(1,2);
+	fixed_t t = (SCREEN_HEIGHT2 << FIXED_SHIFT) + FIXED_MUL(yz, zoom);// + FIXED_DEC(1,2);
 	fixed_t r = l + FIXED_MUL(wz, zoom);
 	fixed_t b = t + FIXED_MUL(hz, zoom);
 	
@@ -550,8 +550,8 @@ void Stage_DrawTexCol(Gfx_Tex *tex, const RECT *src, const RECT_FIXED *dst, fixe
 			return;
 	#endif
 	
-	fixed_t l = (SCREEN_WIDTH2  * FIXED_UNIT) + FIXED_MUL(xz, zoom);// + FIXED_DEC(1,2);
-	fixed_t t = (SCREEN_HEIGHT2 * FIXED_UNIT) + FIXED_MUL(yz, zoom);// + FIXED_DEC(1,2);
+	fixed_t l = (SCREEN_WIDTH2  << FIXED_SHIFT) + FIXED_MUL(xz, zoom);// + FIXED_DEC(1,2);
+	fixed_t t = (SCREEN_HEIGHT2 << FIXED_SHIFT) + FIXED_MUL(yz, zoom);// + FIXED_DEC(1,2);
 	fixed_t r = l + FIXED_MUL(wz, zoom);
 	fixed_t b = t + FIXED_MUL(hz, zoom);
 	
@@ -583,10 +583,10 @@ void Stage_DrawTexArbCol(Gfx_Tex *tex, const RECT *src, const POINT_FIXED *p0, c
 	#endif
 	
 	//Get screen-space points
-	POINT s0 = {SCREEN_WIDTH2 + (FIXED_MUL(p0->x, zoom) / FIXED_UNIT), SCREEN_HEIGHT2 + (FIXED_MUL(p0->y, zoom) / FIXED_UNIT)};
-	POINT s1 = {SCREEN_WIDTH2 + (FIXED_MUL(p1->x, zoom) / FIXED_UNIT), SCREEN_HEIGHT2 + (FIXED_MUL(p1->y, zoom) / FIXED_UNIT)};
-	POINT s2 = {SCREEN_WIDTH2 + (FIXED_MUL(p2->x, zoom) / FIXED_UNIT), SCREEN_HEIGHT2 + (FIXED_MUL(p2->y, zoom) / FIXED_UNIT)};
-	POINT s3 = {SCREEN_WIDTH2 + (FIXED_MUL(p3->x, zoom) / FIXED_UNIT), SCREEN_HEIGHT2 + (FIXED_MUL(p3->y, zoom) / FIXED_UNIT)};
+	POINT s0 = {SCREEN_WIDTH2 + (FIXED_MUL(p0->x, zoom) >> FIXED_SHIFT), SCREEN_HEIGHT2 + (FIXED_MUL(p0->y, zoom) >> FIXED_SHIFT)};
+	POINT s1 = {SCREEN_WIDTH2 + (FIXED_MUL(p1->x, zoom) >> FIXED_SHIFT), SCREEN_HEIGHT2 + (FIXED_MUL(p1->y, zoom) >> FIXED_SHIFT)};
+	POINT s2 = {SCREEN_WIDTH2 + (FIXED_MUL(p2->x, zoom) >> FIXED_SHIFT), SCREEN_HEIGHT2 + (FIXED_MUL(p2->y, zoom) >> FIXED_SHIFT)};
+	POINT s3 = {SCREEN_WIDTH2 + (FIXED_MUL(p3->x, zoom) >> FIXED_SHIFT), SCREEN_HEIGHT2 + (FIXED_MUL(p3->y, zoom) >> FIXED_SHIFT)};
 	
 	Gfx_DrawTexArbCol(tex, src, &s0, &s1, &s2, &s3, r, g, b);
 }
@@ -605,10 +605,10 @@ void Stage_BlendTexArbCol(Gfx_Tex *tex, const RECT *src, const POINT_FIXED *p0, 
 	#endif
 	
 	//Get screen-space points
-	POINT s0 = {SCREEN_WIDTH2 + (FIXED_MUL(p0->x, zoom) / FIXED_UNIT), SCREEN_HEIGHT2 + (FIXED_MUL(p0->y, zoom) / FIXED_UNIT)};
-	POINT s1 = {SCREEN_WIDTH2 + (FIXED_MUL(p1->x, zoom) / FIXED_UNIT), SCREEN_HEIGHT2 + (FIXED_MUL(p1->y, zoom) / FIXED_UNIT)};
-	POINT s2 = {SCREEN_WIDTH2 + (FIXED_MUL(p2->x, zoom) / FIXED_UNIT), SCREEN_HEIGHT2 + (FIXED_MUL(p2->y, zoom) / FIXED_UNIT)};
-	POINT s3 = {SCREEN_WIDTH2 + (FIXED_MUL(p3->x, zoom) / FIXED_UNIT), SCREEN_HEIGHT2 + (FIXED_MUL(p3->y, zoom) / FIXED_UNIT)};
+	POINT s0 = {SCREEN_WIDTH2 + (FIXED_MUL(p0->x, zoom) >> FIXED_SHIFT), SCREEN_HEIGHT2 + (FIXED_MUL(p0->y, zoom) >> FIXED_SHIFT)};
+	POINT s1 = {SCREEN_WIDTH2 + (FIXED_MUL(p1->x, zoom) >> FIXED_SHIFT), SCREEN_HEIGHT2 + (FIXED_MUL(p1->y, zoom) >> FIXED_SHIFT)};
+	POINT s2 = {SCREEN_WIDTH2 + (FIXED_MUL(p2->x, zoom) >> FIXED_SHIFT), SCREEN_HEIGHT2 + (FIXED_MUL(p2->y, zoom) >> FIXED_SHIFT)};
+	POINT s3 = {SCREEN_WIDTH2 + (FIXED_MUL(p3->x, zoom) >> FIXED_SHIFT), SCREEN_HEIGHT2 + (FIXED_MUL(p3->y, zoom) >> FIXED_SHIFT)};
 	
 	Gfx_BlendTexArbCol(tex, src, &s0, &s1, &s2, &s3, r, g, b, mode);
 }
@@ -626,7 +626,7 @@ static void Stage_TimerTick(void)
 	{
 			//Don't change anything if timer be 0
 			if (stage.timer != 0)
-   			stage.timer = Audio_GetLength(stage.stage_def->music_track) - (stage.song_time / FIXED_UNIT) - 1; //Seconds (ticks down)
+   			stage.timer = Audio_GetLength(stage.stage_def->music_track) - (stage.song_time >> FIXED_SHIFT) - 1; //Seconds (ticks down)
   }
 
   else //Else keep the timer	
@@ -665,9 +665,9 @@ static void Stage_TimerDraw(void)
 			FontAlign_Left
 		);
 
-		bar_dst.w = bar_fill.w * FIXED_UNIT;
+		bar_dst.w = bar_fill.w << FIXED_SHIFT;
 		Stage_DrawTexCol(&stage.tex_hud1, &bar_fill, &bar_dst, stage.bump, stage.timercolor.r / 2, stage.timercolor.g / 2, stage.timercolor.b / 2);
-		bar_dst.w = bar_back.w * FIXED_UNIT;
+		bar_dst.w = bar_back.w << FIXED_SHIFT;
 		Stage_DrawTexCol(&stage.tex_hud1, &bar_back, &bar_dst, stage.bump, 0, 0, 0);
 	}
 }
@@ -690,8 +690,8 @@ static void Stage_DrawCountdown(void)
 		RECT_FIXED countdown_dst = {
 			FIXED_DEC(-140,1),
 			FIXED_DEC(-43,1),
-			FIXED_MUL(countdown_src.w * FIXED_UNIT, FIXED_DEC(125,100)),
-			FIXED_MUL(countdown_src.h * FIXED_UNIT, FIXED_DEC(125,100)),
+			FIXED_MUL(countdown_src.w << FIXED_SHIFT, FIXED_DEC(125,100)),
+			FIXED_MUL(countdown_src.h << FIXED_SHIFT, FIXED_DEC(125,100)),
 		};
 
 		if (count >= 0)
@@ -725,7 +725,7 @@ static void Stage_DrawHealthBar(u32 color, s8 ox)
 
 	//Get src and dst
 	RECT health_src = {0, 245, healthw, 6};
-	RECT_FIXED health_dst = {FIXED_DEC(-100,1), (SCREEN_HEIGHT2 - 30) * FIXED_UNIT, healthw * FIXED_UNIT, FIXED_DEC(6,1)};
+	RECT_FIXED health_dst = {FIXED_DEC(-100,1), (SCREEN_HEIGHT2 - 30) << FIXED_SHIFT, healthw << FIXED_SHIFT, FIXED_DEC(6,1)};
 
 	if (stage.save.downscroll)
 			health_dst.y = -health_dst.y - health_dst.h;
@@ -745,7 +745,7 @@ static void Stage_DrawHealth(s16 health, u8 i, s8 ox)
 		dying = (health <= 2000) * icon_size;
 	
 	//Get src and dst
-	fixed_t hx = (100 * FIXED_UNIT) * (10000 - health) / 10000;
+	fixed_t hx = (100 << FIXED_SHIFT) * (10000 - health) / 10000;
 	RECT src = {
 		(i % 3) * (icon_size*2) + dying,
 		(i / 3) * icon_size,
@@ -756,8 +756,8 @@ static void Stage_DrawHealth(s16 health, u8 i, s8 ox)
 	RECT_FIXED dst = {
 		hx + ox * FIXED_DEC(17,1) - FIXED_DEC(16,1),
 		FIXED_DEC(SCREEN_HEIGHT2 - 32 + 4 - (icon_size/2), 1),
-		src.w * FIXED_UNIT,
-		src.h * FIXED_UNIT
+		src.w << FIXED_SHIFT,
+		src.h << FIXED_SHIFT
 	};
 
 	if (stage.save.downscroll)
@@ -856,7 +856,7 @@ static void Stage_DrawPause(void)
   for (u8 i = 0; i < COUNT_OF(stage_options); i++)
   {
     //Get position on screen
-    s32 y = (i * 33) - 8 - (stage.pause_scroll / FIXED_UNIT);
+    s32 y = (i * 33) - 8 - (stage.pause_scroll >> FIXED_SHIFT);
     if (y <= -SCREEN_HEIGHT2 - 8)
       continue;
     if (y >= SCREEN_HEIGHT2 + 8)
@@ -921,7 +921,7 @@ static void Stage_DrawNotes(void)
 		u8 i = ((note->type ^ stage.note_swap) & NOTE_FLAG_OPPONENT) != 0;
 		PlayerState *this = &stage.player_state[i];
 		
-		fixed_t note_fp = (fixed_t)note->pos * FIXED_UNIT;
+		fixed_t note_fp = (fixed_t)note->pos << FIXED_SHIFT;
 		fixed_t time = (scroll.start - stage.song_time) + (scroll.length * (note->pos - scroll.start_step) / scroll.length_step);
 		fixed_t y = stage.note_y[note->type % 8] + FIXED_MUL(stage.speed, time * 150);
 		
@@ -972,17 +972,17 @@ static void Stage_DrawNotes(void)
 				//Draw sustain
 				if (note->type & NOTE_FLAG_SUSTAIN_END)
 				{
-					if (clip < (24 * FIXED_UNIT))
+					if (clip < (24 << FIXED_SHIFT))
 					{
 						note_src.x = 160;
-						note_src.y = ((note->type % 4) * 32) + (clip / FIXED_UNIT);
+						note_src.y = ((note->type % 4) * 32) + (clip >> FIXED_SHIFT);
 						note_src.w = 32;
-						note_src.h = 28 - (clip / FIXED_UNIT);
+						note_src.h = 28 - (clip >> FIXED_SHIFT);
 						
 						note_dst.x = stage.note_x[(note->type % 8)] - FIXED_DEC(16,1);
 						note_dst.y = y + clip;
-						note_dst.w = note_src.w * FIXED_UNIT;
-						note_dst.h = (note_src.h * FIXED_UNIT);
+						note_dst.w = note_src.w << FIXED_SHIFT;
+						note_dst.h = (note_src.h << FIXED_SHIFT);
 						
 						if (stage.save.downscroll)
 						{
@@ -1008,7 +1008,7 @@ static void Stage_DrawNotes(void)
 						
 						note_dst.x = stage.note_x[(note->type % 8)] - FIXED_DEC(16,1);
 						note_dst.y = y + clip;
-						note_dst.w = note_src.w * FIXED_UNIT;
+						note_dst.w = note_src.w << FIXED_SHIFT;
 						note_dst.h = (next_y - y) - clip;
 						
 						if (stage.save.downscroll)
@@ -1031,8 +1031,8 @@ static void Stage_DrawNotes(void)
 				
 				note_dst.x = stage.note_x[(note->type % 8)] - FIXED_DEC(16,1);
 				note_dst.y = y - FIXED_DEC(16,1);
-				note_dst.w = note_src.w * FIXED_UNIT;
-				note_dst.h = note_src.h * FIXED_UNIT;
+				note_dst.w = note_src.w << FIXED_SHIFT;
+				note_dst.h = note_src.h << FIXED_SHIFT;
 				
 				if (stage.save.downscroll)
 					note_dst.y = -note_dst.y - note_dst.h;
@@ -1087,8 +1087,8 @@ static void Stage_DrawNotes(void)
 				
 				note_dst.x = stage.note_x[(note->type % 8)] - FIXED_DEC(16,1);
 				note_dst.y = y - FIXED_DEC(16,1);
-				note_dst.w = note_src.w * FIXED_UNIT;
-				note_dst.h = note_src.h * FIXED_UNIT;
+				note_dst.w = note_src.w << FIXED_SHIFT;
+				note_dst.h = note_src.h << FIXED_SHIFT;
 				
 				if (stage.save.downscroll)
 					note_dst.y = -note_dst.y - note_dst.h;
@@ -1104,7 +1104,7 @@ static fixed_t Stage_LoadScrollLength(void)
 	switch (stage.stage_id)
 	{
 		case StageId_2_4: //Monster jumpscare
-			return FIXED_DEC(-6 * 5 * 12,1); //(-30)
+			return FIXED_DEC(-7 * 5 * 12,1); //(-30)
 		break;
 
 		default:
@@ -1402,7 +1402,7 @@ static void Stage_LoadState(void)
 static void Stage_InitCamera(void)
 {
 	//Set camera focus
-	if (stage.cur_section->flag & SECTION_FLAG_OPPFOCUS)
+	if (stage.cur_section->flag & SECTION_FLAG_OPPFOCUS || stage.stage_id == StageId_2_4)
 		Stage_FocusCharacter(stage.opponent, FIXED_UNIT);
 	else
 		Stage_FocusCharacter(stage.player, FIXED_UNIT);
@@ -1651,7 +1651,7 @@ void Stage_Tick(void)
 						fixed_t audio_time = (fixed_t)Audio_TellXA_Milli() - stage.offset;
 						if (audio_time < 0)
 							audio_time = 0;
-						stage.interp_ms = (audio_time * FIXED_UNIT) / 1000;
+						stage.interp_ms = (audio_time << FIXED_SHIFT) / 1000;
 						stage.interp_time = 0;
 						stage.song_time = stage.interp_ms;
 					}
@@ -1670,14 +1670,14 @@ void Stage_Tick(void)
 					fixed_t audio_time_pof = (fixed_t)Audio_TellXA_Milli();
 					fixed_t audio_time = (audio_time_pof > 0) ? (audio_time_pof - stage.offset) : 0;
 
-					stage.interp_ms = (audio_time * FIXED_UNIT) / 1000;
+					stage.interp_ms = (audio_time << FIXED_SHIFT) / 1000;
 					stage.interp_time = 0;
 					stage.song_time = stage.interp_ms;
 						
 					playing = true;
 						
 					//Update scroll
-					next_scroll = ((fixed_t)stage.step_base * FIXED_UNIT) + FIXED_MUL(stage.song_time - stage.time_base, stage.step_crochet);
+					next_scroll = ((fixed_t)stage.step_base << FIXED_SHIFT) + FIXED_MUL(stage.song_time - stage.time_base, stage.step_crochet);
 				}
 				else
 				{
@@ -1686,7 +1686,7 @@ void Stage_Tick(void)
 					stage.song_time += timer_dt;
 						
 					//Update scroll
-					next_scroll = ((fixed_t)stage.step_base * FIXED_UNIT) + FIXED_MUL(stage.song_time - stage.time_base, stage.step_crochet);
+					next_scroll = ((fixed_t)stage.step_base << FIXED_SHIFT) + FIXED_MUL(stage.song_time - stage.time_base, stage.step_crochet);
 						
 					//Transition to menu or next song
 					if (stage.story && stage.stage_def->next_stage != stage.stage_id)
@@ -1725,7 +1725,7 @@ void Stage_Tick(void)
 				if (((stage.note_scroll / 12) & FIXED_UAND) != ((next_scroll / 12) & FIXED_UAND))
 					stage.flag |= STAGE_FLAG_JUST_STEP;
 				stage.note_scroll = next_scroll;
-				stage.song_step = (stage.note_scroll / FIXED_UNIT);
+				stage.song_step = (stage.note_scroll >> FIXED_SHIFT);
 				if (stage.note_scroll < 0)
 					stage.song_step -= 11;
 				stage.song_step /= 12;
@@ -1737,7 +1737,7 @@ void Stage_Tick(void)
 			{
 				//Check if current section has ended
 				u16 end = stage.cur_section->end;
-				if ((stage.note_scroll / FIXED_UNIT) >= end)
+				if ((stage.note_scroll >> FIXED_SHIFT) >= end)
 				{
 					//Increment section pointer
 					stage.cur_section++;
@@ -1748,7 +1748,7 @@ void Stage_Tick(void)
 					stage.section_base = stage.cur_section;
 					
 					//Recalculate scroll based off new BPM
-					next_scroll = ((fixed_t)stage.step_base * FIXED_UNIT) + FIXED_MUL(stage.song_time - stage.time_base, stage.step_crochet);
+					next_scroll = ((fixed_t)stage.step_base << FIXED_SHIFT) + FIXED_MUL(stage.song_time - stage.time_base, stage.step_crochet);
 					goto RecalcScroll;
 				}
 			}
@@ -1806,7 +1806,7 @@ void Stage_Tick(void)
 			}
 			
 			//Scroll camera
-			if ((stage.cur_section->flag & SECTION_FLAG_OPPFOCUS && stage.opponent != NULL) || (stage.player == NULL))
+			if ((stage.cur_section->flag & SECTION_FLAG_OPPFOCUS && stage.opponent != NULL) || (stage.player == NULL)  || (stage.stage_id == StageId_2_4 && stage.song_step < 33))
 				Stage_FocusCharacter(stage.opponent, FIXED_DEC(1,1) / 24);
 			else
 				Stage_FocusCharacter(stage.player, FIXED_DEC(1,1) / 24);
@@ -1827,7 +1827,7 @@ void Stage_Tick(void)
 					
 					for (Note *note = stage.cur_note;; note++)
 					{
-						if (note->pos > (stage.note_scroll / FIXED_UNIT))
+						if (note->pos > (stage.note_scroll >> FIXED_SHIFT))
 							break;
 						
 						//Opponent note hits

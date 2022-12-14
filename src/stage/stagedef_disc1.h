@@ -123,7 +123,7 @@
 	{ //StageId_3_1 (Pico)
 		//Characters
 		{Char_BF_New,     FIXED_DEC(56,1),   FIXED_DEC(85,1)},
-		{Char_Pico_New, FIXED_DEC(-105,1),   FIXED_DEC(85,1)},
+		{Char_Pico_New, FIXED_DEC(-85,1),   FIXED_DEC(85,1)},
 		{Char_GF_New,      FIXED_DEC(0,1),  FIXED_DEC(-15,1)},
 		
 		//Stage background
@@ -138,7 +138,7 @@
 	{ //StageId_3_2 (Philly)
 		//Characters
 		{Char_BF_New,     FIXED_DEC(56,1),   FIXED_DEC(85,1)},
-		{Char_Pico_New, FIXED_DEC(-105,1),   FIXED_DEC(85,1)},
+		{Char_Pico_New, FIXED_DEC(-85,1),   FIXED_DEC(85,1)},
 		{Char_GF_New,      FIXED_DEC(0,1),  FIXED_DEC(-15,1)},
 		
 		//Stage background
@@ -153,7 +153,7 @@
 	{ //StageId_3_3 (Blammed)
 		//Characters
 		{Char_BF_New,     FIXED_DEC(56,1),   FIXED_DEC(85,1)},
-		{Char_Pico_New, FIXED_DEC(-105,1),   FIXED_DEC(85,1)},
+		{Char_Pico_New, FIXED_DEC(-85,1),   FIXED_DEC(85,1)},
 		{Char_GF_New,      FIXED_DEC(0,1),  FIXED_DEC(-15,1)},
 		
 		//Stage background

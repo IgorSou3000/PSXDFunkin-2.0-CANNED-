@@ -20,10 +20,11 @@ typedef struct
 	//Textures
 	Gfx_Tex tex_back0; //Buildings
 	Gfx_Tex tex_back1; //Lights
-	Gfx_Tex tex_back2; //Rooftop
-	Gfx_Tex tex_back3; //Background train arc
-	Gfx_Tex tex_back4; //Train
-	Gfx_Tex tex_back5; //Sky
+	Gfx_Tex tex_back2; //Rooftop 1
+	Gfx_Tex tex_back3; //Rooftop 2
+	Gfx_Tex tex_back4; //Sky
+	Gfx_Tex tex_back5; //Background 1
+	Gfx_Tex tex_back6; //Background 2
 	
 	//Window state
 	u8 win_r, win_g, win_b;
@@ -63,7 +64,29 @@ void Back_Week3_DrawBG(StageBack *back)
 	
 	fixed_t fx, fy, fscroll;
 	
+	//Draw background
+	fx = stage.camera.x;
+	fy = stage.camera.y;
+
+	RECT back_src = {0, 0, 216, 220};
+	RECT_FIXED back_dst = {
+		FIXED_DEC(-205,1) - fx,
+		FIXED_DEC(-80,1) - fy,
+		FIXED_DEC(216,1),
+		FIXED_DEC(220,1)
+	};
+
+	Stage_DrawTex(&this->tex_back5, &back_src, &back_dst, stage.camera.bzoom);
+
+	back_dst.x += back_dst.w;
+
+	Stage_DrawTex(&this->tex_back6, &back_src, &back_dst, stage.camera.bzoom);
+
 	//Update window
+	fscroll = FIXED_DEC(3,10);
+	fx = FIXED_MUL(stage.camera.x, fscroll);
+	fy = FIXED_MUL(stage.camera.y, fscroll);
+
 	if (this->win_time > 0)
 	{
 		this->win_time -= timer_dt;
@@ -73,122 +96,22 @@ void Back_Week3_DrawBG(StageBack *back)
 	if (stage.note_scroll >= 0 && (stage.flag & STAGE_FLAG_JUST_STEP) && (stage.song_step & 0xF) == 0)
 		Back_Week3_Window(this);
 	
-	//Draw rooftop
-	fx = stage.camera.x;
-	fy = stage.camera.y;
-	
-	static const struct Back_Week3_RoofPiece
-	{
-		RECT src;
-		fixed_t scale;
-	} roof_piece[] = {
-		{{  0, 0,  16, 255}, FIXED_MUL(FIXED_DEC(21,10), FIXED_UNIT)},
-		{{ 16, 0,  55, 255}, FIXED_DEC(9,10)},
-		{{ 71, 0, 128, 255}, FIXED_DEC(185,100)},
-		{{199, 0,  55, 255}, FIXED_DEC(9,10)},
-		{{255, 0,   0, 255}, FIXED_DEC(16,1)}
-	};
-	
-	RECT_FIXED roof_dst = {
-		FIXED_DEC(-210,1) - FIXED_DEC(SCREEN_WIDEOADD,2) - fx,
-		FIXED_DEC(-106,1) - fy,
-		0,
-		FIXED_DEC(220,1)
-	};
-	
-	const struct Back_Week3_RoofPiece *roof_p = roof_piece;
-	for (size_t i = 0; i < COUNT_OF(roof_piece); i++, roof_p++)
-	{
-		if (roof_p->src.w) 
-			roof_dst.w = (roof_p->src.w * roof_p->scale);
-
-		else
-			roof_dst.w = (roof_p->scale);
-
-		Stage_DrawTex(&this->tex_back2, &roof_p->src, &roof_dst, stage.camera.bzoom);
-		roof_dst.x += roof_dst.w;
-	}
-	
-	RECT roof_fillsrc = {0, 254, 1, 0};
-	RECT roof_fill = {0, SCREEN_HEIGHT * 2 / 3, SCREEN_WIDTH, SCREEN_HEIGHT * 1 / 3};
-	Gfx_DrawTex(&this->tex_back2, &roof_fillsrc, &roof_fill);
-	
-	//Move train
-	if (this->train_x <= TRAIN_END_X)
-	{
-		//Reset train
-		if ((stage.flag & STAGE_FLAG_JUST_STEP) && (stage.song_step & 0xF) == 0)
-		{
-			if (--this->train_timer == 0)
-			{
-				this->train_x = TRAIN_START_X;
-				this->train_timer = RandomRange(TRAIN_TIME_A, TRAIN_TIME_B);
-			}
-		}
-	}
-	else
-	{
-		//Move train to end position
-		this->train_x  -= timer_dt * 2000;
-		
-		//Draw train
-		RECT train_src = {0, 0, 255, 255};
-		RECT_FIXED train_dst = {
-			this->train_x - fx,
-			FIXED_DEC(-65,1) - fy,
-			FIXED_DEC(284,1),
-			FIXED_DEC(119,1)
-		};
-		
-		for (int i = 0; i < 24; i++, train_dst.x += train_dst.w)
-		{
-			if (train_dst.x >= (SCREEN_WIDTH2 << FIXED_SHIFT) || train_dst.x <= -(train_dst.w + (SCREEN_WIDTH2 << FIXED_SHIFT)))
-				continue;
-			Stage_DrawTex(&this->tex_back4, &train_src, &train_dst, stage.camera.bzoom);
-		}
-	}
-	
-	//Draw arc
-	RECT arcl_src = {0, 0, 38, 121};
-	RECT_FIXED arcl_dst = {
-		FIXED_DEC(-131,1) - fx,
-		FIXED_DEC(-86,1) - fy,
-		FIXED_DEC(38,1),
-		FIXED_DEC(121,1)
-	};
-	
-	RECT arcr_src = {39, 0, 39, 121};
-	RECT_FIXED arcr_dst = {
-		FIXED_DEC(74,1) - fx,
-		FIXED_DEC(-85,1) - fy,
-		FIXED_DEC(39,1),
-		FIXED_DEC(121,1)
-	};
-	
-	Stage_DrawTex(&this->tex_back3, &arcl_src, &arcl_dst, stage.camera.bzoom);
-	Stage_DrawTex(&this->tex_back3, &arcr_src, &arcr_dst, stage.camera.bzoom);
-	
-	//Draw lights
-	fscroll = FIXED_DEC(3,10);
-	fx = FIXED_MUL(stage.camera.x, fscroll);
-	fy = FIXED_MUL(stage.camera.y, fscroll);
-	
 	if (this->win_time >= 0)
 	{
-		RECT lightl_src = {0, 0, 255, 132};
+		RECT lightl_src = {0, 0, 148, 74};
 		RECT_FIXED lightl_dst = {
-			FIXED_DEC(-175,1) - fx,
+			FIXED_DEC(-165,1) - fx,
 			FIXED_DEC(-80,1) - fy,
-			FIXED_DEC(195,1),
-			FIXED_DEC(103,1)
+			FIXED_DEC(148,1),
+			FIXED_DEC(74,1)
 		};
 		
-		RECT lightr_src = {0, 132, 255, 123};
+		RECT lightr_src = {0, 90, 148, 74};
 		RECT_FIXED lightr_dst = {
-			FIXED_DEC(98,1) - fx,
-			FIXED_DEC(-64,1) - fy,
-			FIXED_DEC(198,1),
-			FIXED_DEC(95,1)
+			FIXED_DEC(50,1) - fx,
+			FIXED_DEC(-80,1) - fy,
+			FIXED_DEC(148,1),
+			FIXED_DEC(74,1)
 		};
 		
 		u8 win_r = (((fixed_t)this->win_r * this->win_time) >> FIXED_SHIFT) / 6;
@@ -198,42 +121,51 @@ void Back_Week3_DrawBG(StageBack *back)
 		Stage_DrawTexCol(&this->tex_back1, &lightl_src, &lightl_dst, stage.camera.bzoom, win_r, win_g, win_b);
 		Stage_DrawTexCol(&this->tex_back1, &lightr_src, &lightr_dst, stage.camera.bzoom, win_r, win_g, win_b);
 	}
-	
-	//Draw buildings
-	RECT building_src = {0, 0, 255, 128};
-	RECT_FIXED building_dst = {
-		FIXED_DEC(-195,1) - fx,
+
+
+	//Draw Buildings
+	RECT build_src = {0, 0, 184, 126};
+	RECT_FIXED build_dst = {
+		FIXED_DEC(-175,1) - fx,
 		FIXED_DEC(-120,1) - fy,
-		FIXED_DEC(240,1),
-		FIXED_DEC(120,1)
+		FIXED_DEC(184,1),
+		FIXED_DEC(126,1)
 	};
-	
-	Stage_DrawTex(&this->tex_back0, &building_src, &building_dst, stage.camera.bzoom);
-	building_dst.x += building_dst.w;
-	building_src.y += building_src.h - 1;
-	Stage_DrawTex(&this->tex_back0, &building_src, &building_dst, stage.camera.bzoom);
-	
-	RECT building_fillsrc = {0, 255, 1, 0};
-	RECT building_fill = {0, SCREEN_HEIGHT * 3 / 7, SCREEN_WIDTH, SCREEN_HEIGHT * 4 / 7};
-	Gfx_DrawTex(&this->tex_back0, &building_fillsrc, &building_fill);
-	
-	//Draw sky
+
+	Stage_DrawTex(&this->tex_back0, &build_src, &build_dst, stage.camera.bzoom);
+
+	build_src.y += build_src.h;
+	build_dst.x += build_dst.w;
+
+	Stage_DrawTex(&this->tex_back0, &build_src, &build_dst, stage.camera.bzoom);
+
+	build_dst.x -= build_dst.w;
+	build_dst.w *= 2;
+	build_src.y = 125;
+	build_src.h = 1;
+	build_dst.y += build_dst.h;
+
+	Stage_DrawTex(&this->tex_back0, &build_src, &build_dst, stage.camera.bzoom);
+
+	//Draw Sky
 	fscroll = FIXED_DEC(1,10);
 	fx = FIXED_MUL(stage.camera.x, fscroll);
 	fy = FIXED_MUL(stage.camera.y, fscroll);
-	
-	RECT sky_src = {0, 0, 255, 128};
+
+	RECT sky_src = {0, 0, 168, 126};
 	RECT_FIXED sky_dst = {
-		FIXED_DEC(-166,1) - fx,
-		FIXED_DEC(-118,1) - fy,
-		FIXED_DEC(172,1),
-		FIXED_DEC(110,1)
+		FIXED_DEC(-175,1) - fx,
+		FIXED_DEC(-140,1) - fy,
+		FIXED_DEC(168,1),
+		FIXED_DEC(126,1)
 	};
-	
-	Stage_DrawTex(&this->tex_back5, &sky_src, &sky_dst, stage.camera.bzoom);
+
+	Stage_DrawTex(&this->tex_back4, &sky_src, &sky_dst, stage.camera.bzoom);
+
+	sky_src.y += sky_src.h;
 	sky_dst.x += sky_dst.w;
-	sky_src.y += sky_src.h - 1;
-	Stage_DrawTex(&this->tex_back5, &sky_src, &sky_dst, stage.camera.bzoom);
+
+	Stage_DrawTex(&this->tex_back4, &sky_src, &sky_dst, stage.camera.bzoom);
 }
 
 void Back_Week3_Free(StageBack *back)
@@ -271,6 +203,7 @@ StageBack *Back_Week3_New(void)
 	Gfx_LoadTex(&this->tex_back3, Archive_Find(arc_back, "back3.tim"), 0);
 	Gfx_LoadTex(&this->tex_back4, Archive_Find(arc_back, "back4.tim"), 0);
 	Gfx_LoadTex(&this->tex_back5, Archive_Find(arc_back, "back5.tim"), 0);
+	Gfx_LoadTex(&this->tex_back6, Archive_Find(arc_back, "back6.tim"), 0);
 	Mem_Free(arc_back);
 	
 	//Initialize window state

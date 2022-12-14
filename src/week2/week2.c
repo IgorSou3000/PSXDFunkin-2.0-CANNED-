@@ -28,6 +28,9 @@ typedef struct
 
 	//Check if it the monster stage
 	boolean is_monster;
+
+	//Since the step flag not work with the monster jumpscare, i'm making this variable
+	boolean soundhasplayed;
 } Back_Week2;
 
 void Back_Week2_Tick(StageBack *back)
@@ -35,7 +38,7 @@ void Back_Week2_Tick(StageBack *back)
 	Back_Week2 *this = (Back_Week2*)back;
 	
 	//Monster "jumpscare"
-	if (stage.story && this->is_monster && stage.song_step == -29 && stage.flag & STAGE_FLAG_JUST_STEP)
+	if (stage.story && this->is_monster && stage.song_step == -35 && this->soundhasplayed == false)
 	{
 		//Play Jumpscare Sound
 		Audio_PlaySFX(this->sounds[2], 80);
@@ -43,6 +46,8 @@ void Back_Week2_Tick(StageBack *back)
 		//Set thunder stuff
 		this->thunder = FIXED_DEC(255,1);
 		this->thunderspd = FIXED_DEC(160,1);
+
+		this->soundhasplayed = true;
 	}
 }
 
@@ -84,6 +89,7 @@ void Back_Week2_DrawBG(StageBack *back)
 	
 	Stage_DrawTex(&this->tex_back1, &back_src, &back_dst, stage.camera.bzoom);
 
+	//This is for cover the top of the screen for monster camera
 	back_dst.x -= back_dst.w;
 	back_src.h = 1;
 	back_dst.y -= back_dst.h;
@@ -157,6 +163,8 @@ StageBack *Back_Week2_New(void)
 
 	//Initialize thunder state
 	this->thunder = this->thunderspd = 0;
+
+	this->soundhasplayed = false;
 	
 	return (StageBack*)this;
 }

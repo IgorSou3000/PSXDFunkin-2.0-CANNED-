@@ -513,7 +513,7 @@ void Menu_Tick(void)
 			if (menu.page_state.title.fade > 0)
 			{
 				static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
-				u8 flash_col = menu.page_state.title.fade / FIXED_UNIT;
+				u8 flash_col = menu.page_state.title.fade >> FIXED_SHIFT;
 				Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 1);
 				menu.page_state.title.fade -= FIXED_MUL(menu.page_state.title.fadespd, timer_dt);
 			}
@@ -546,9 +546,9 @@ void Menu_Tick(void)
 				FIXED_DEC(110,100),
 				FIXED_DEC(97,100),
 			};
-			fixed_t logo_scale = logo_scales[(menu.page_state.title.logo_bump * 24) / FIXED_UNIT];
-			u32 x_rad = (logo_scale * (176 / 2)) / FIXED_UNIT;
-			u32 y_rad = (logo_scale * (112 / 2)) / FIXED_UNIT;
+			fixed_t logo_scale = logo_scales[(menu.page_state.title.logo_bump * 24) >> FIXED_SHIFT];
+			u32 x_rad = (logo_scale * (176 / 2)) >> FIXED_SHIFT;
+			u32 y_rad = (logo_scale * (112 / 2)) >> FIXED_SHIFT;
 			
 			RECT logo_src = {0, 0, 176, 112};
 			RECT logo_dst = {
@@ -666,7 +666,7 @@ void Menu_Tick(void)
 					menu.font_bold.draw(&menu.font_bold,
 						Menu_LowerIf(menu_options[i], menu.select != i),
 						SCREEN_WIDTH2,
-						SCREEN_HEIGHT2 + (i * 32) - 48 - (menu.scroll / FIXED_UNIT),
+						SCREEN_HEIGHT2 + (i * 32) - 48 - (menu.scroll >> FIXED_SHIFT),
 						FontAlign_Center
 					);
 				}
@@ -677,7 +677,7 @@ void Menu_Tick(void)
 				menu.font_bold.draw(&menu.font_bold,
 					menu_options[menu.select],
 					SCREEN_WIDTH2,
-					SCREEN_HEIGHT2 + (menu.select * 32) - 48 - (menu.scroll / FIXED_UNIT),
+					SCREEN_HEIGHT2 + (menu.select * 32) - 48 - (menu.scroll >> FIXED_SHIFT),
 					FontAlign_Center
 				);
 			}
@@ -721,7 +721,7 @@ void Menu_Tick(void)
 			if (menu.page_state.title.fade > 0)
 			{
 				static const RECT flash = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
-				u8 flash_col = menu.page_state.title.fade / FIXED_UNIT;
+				u8 flash_col = menu.page_state.title.fade >> FIXED_SHIFT;
 				Gfx_BlendRect(&flash, flash_col, flash_col, flash_col, 1);
 				menu.page_state.title.fade -= FIXED_MUL(menu.page_state.title.fadespd, timer_dt);
 			}
@@ -806,7 +806,7 @@ void Menu_Tick(void)
 			//Draw all options
 			for (u8 i = 0; i < COUNT_OF(menu_options); i++)
 			{
-				s32 y = 132 + (i * 48) - (menu.scroll / FIXED_UNIT);
+				s32 y = 132 + (i * 48) - (menu.scroll >> FIXED_SHIFT);
 				if (y <= 16)
 					continue;
 				if (y >= SCREEN_HEIGHT)
@@ -814,7 +814,7 @@ void Menu_Tick(void)
 
 				//Draw the selected option with a cool effect
 				if (menu.next_page == MenuPage_Stage && animf_count & 2)
-					Menu_DrawWeek(menu_options[menu.select].week, SCREEN_WIDTH2 - 64, 132 + (menu.select * 48) - (menu.scroll / FIXED_UNIT), true);
+					Menu_DrawWeek(menu_options[menu.select].week, SCREEN_WIDTH2 - 64, 132 + (menu.select * 48) - (menu.scroll >> FIXED_SHIFT), true);
 
 				//Draw all options
 				Menu_DrawWeek(menu_options[i].week, SCREEN_WIDTH2 - 64, y, false);
@@ -923,7 +923,7 @@ void Menu_Tick(void)
 			for (u8 i = 0; i < COUNT_OF(menu_options); i++)
 			{
 				//Get position on screen
-				s32 y = (i * 32) - 8 - (menu.scroll / FIXED_UNIT);
+				s32 y = (i * 32) - 8 - (menu.scroll >> FIXED_SHIFT);
 				if (y <= -SCREEN_HEIGHT2 - 8)
 					continue;
 				if (y >= SCREEN_HEIGHT2 + 8)
@@ -942,9 +942,9 @@ void Menu_Tick(void)
 			}
 			
 			//Draw background
-			fixed_t tgt_r = (fixed_t)((menu_options[menu.select].col >> 16) & 0xFF) * FIXED_UNIT;
-			fixed_t tgt_g = (fixed_t)((menu_options[menu.select].col >>  8) & 0xFF) * FIXED_UNIT;
-			fixed_t tgt_b = (fixed_t)((menu_options[menu.select].col >>  0) & 0xFF) * FIXED_UNIT;
+			fixed_t tgt_r = (fixed_t)((menu_options[menu.select].col >> 16) & 0xFF) << FIXED_SHIFT;
+			fixed_t tgt_g = (fixed_t)((menu_options[menu.select].col >>  8) & 0xFF) << FIXED_SHIFT;
+			fixed_t tgt_b = (fixed_t)((menu_options[menu.select].col >>  0) & 0xFF) << FIXED_SHIFT;
 			
 			menu.page_state.freeplay.back_r += Lerp(menu.page_state.freeplay.back_r, tgt_r, FIXED_DEC(1,1) / 16);
 			menu.page_state.freeplay.back_g += Lerp(menu.page_state.freeplay.back_g, tgt_g, FIXED_DEC(1,1) / 16);
@@ -1031,7 +1031,7 @@ void Menu_Tick(void)
 			for (u8 i = 0; i < COUNT_OF(menu_options); i++)
 			{
 				//Get position on screen
-				s32 y = (i * 24) - 8 - (menu.scroll / FIXED_UNIT);
+				s32 y = (i * 24) - 8 - (menu.scroll >> FIXED_SHIFT);
 				if (y <= -SCREEN_HEIGHT2 - 8)
 					continue;
 				if (y >= SCREEN_HEIGHT2 + 8)
@@ -1161,7 +1161,7 @@ void Menu_Tick(void)
 			for (u8 i = 0; i < COUNT_OF(menu_options); i++)
 			{
 				//Get position on screen
-				s32 y = (i * 24) - 8 - (menu.scroll / FIXED_UNIT);
+				s32 y = (i * 24) - 8 - (menu.scroll >> FIXED_SHIFT);
 				if (y <= -SCREEN_HEIGHT2 - 8)
 					continue;
 				if (y >= SCREEN_HEIGHT2 + 8)

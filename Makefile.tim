@@ -80,7 +80,7 @@ $(SPOOKPATH)/normal/main.arc: $(SPOOKPATH)/normal/idle0.tim $(SPOOKPATH)/normal/
 $(MONSTERPATH)/normal/main.arc: $(MONSTERPATH)/normal/idle0.tim $(MONSTERPATH)/normal/idle1.tim  $(MONSTERPATH)/normal/idle2.tim  $(MONSTERPATH)/normal/idle3.tim  $(MONSTERPATH)/normal/idle4.tim  $(MONSTERPATH)/normal/idle5.tim  $(MONSTERPATH)/normal/idle6.tim  $(MONSTERPATH)/normal/idle7.tim  $(MONSTERPATH)/normal/left0.tim $(MONSTERPATH)/normal/left1.tim $(MONSTERPATH)/normal/left2.tim $(MONSTERPATH)/normal/down0.tim $(MONSTERPATH)/normal/down1.tim $(MONSTERPATH)/normal/down2.tim $(MONSTERPATH)/normal/up0.tim  $(MONSTERPATH)/normal/up1.tim $(MONSTERPATH)/normal/up2.tim  $(MONSTERPATH)/normal/up3.tim  $(MONSTERPATH)/normal/up4.tim $(MONSTERPATH)/normal/right0.tim $(MONSTERPATH)/normal/right1.tim $(MONSTERPATH)/normal/right2.tim $(MONSTERPATH)/normal/right3.tim $(MONSTERPATH)/normal/right4.tim $(MONSTERPATH)/normal/right5.tim
 
 # Pico
-$(PICOPATH)/normal/main.arc: $(PICOPATH)/normal/idle.tim $(PICOPATH)/normal/hit0.tim $(PICOPATH)/normal/hit1.tim
+$(PICOPATH)/normal/main.arc: $(PICOPATH)/normal/idle0.tim $(PICOPATH)/normal/idle1.tim $(PICOPATH)/normal/hit0.tim $(PICOPATH)/normal/hit1.tim $(PICOPATH)/normal/hit2.tim $(PICOPATH)/normal/reload0.tim $(PICOPATH)/normal/reload1.tim $(PICOPATH)/normal/shoot0.tim $(PICOPATH)/normal/shoot1.tim $(PICOPATH)/normal/shoot2.tim $(PICOPATH)/normal/shoot3.tim
 
 # Mom
 $(MOMPATH)/normal/main.arc: $(MOMPATH)/normal/idle0.tim $(MOMPATH)/normal/idle1.tim $(MOMPATH)/normal/left.tim $(MOMPATH)/normal/down.tim $(MOMPATH)/normal/up.tim $(MOMPATH)/normal/right.tim
@@ -122,7 +122,7 @@ iso/week2/normal/back.arc: iso/week2/normal/back0.tim iso/week2/normal/back1.tim
 iso/week2/monster/back.arc: iso/week2/monster/back0.tim iso/week2/monster/back1.tim
 
 # Week 3
-iso/week3/back.arc: iso/week3/back0.tim iso/week3/back1.tim iso/week3/back2.tim iso/week3/back3.tim iso/week3/back4.tim iso/week3/back5.tim
+iso/week3/back.arc: iso/week3/back0.tim iso/week3/back1.tim iso/week3/back2.tim iso/week3/back3.tim iso/week3/back4.tim iso/week3/back5.tim iso/week3/back6.tim
 
 # Week 4
 iso/week4/back.arc: iso/week4/back0.tim iso/week4/back1.tim iso/week4/back2.tim iso/week4/back3.tim iso/week4/back4.tim
